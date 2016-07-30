@@ -3,7 +3,7 @@
   (:use org.httpkit.server)
   (:require
     [ring.middleware.reload :as reload]
-    [compojure.core :refer [defroutes GET PUT POST DELETE ANY context routes wrap-routes]]
+    [compojure.core :refer [wrap-routes routes]]
     [compojure.route :as route]
     [hiccup.middleware :as hiccup-middleware]
     [ring.middleware.defaults :refer [wrap-defaults site-defaults api-defaults]]
@@ -17,21 +17,13 @@
     [optimus.assets :as assets]
     [optimus.optimizations :as optimizations]
     [optimus.strategies :as strategies]
-    [election.hello :as hello]
     [election.status :as status]
+    [election.routes.site-router :as site-router]
+    [election.routes.api-router :as api-router]
   )
 )
 
-(defn in-dev? [] (= "true" (env :dev)))
-
-(defroutes site-routes
-  (GET "/" request (hello/render-view request))
-  (GET "/status" request (status/render-view request)))
-
-(defroutes api-routes
-  (context "/api" []
-    (context "/v1" []
-      (GET "/" request (response {:type "success" :message "Hi world"})))))
+(defn in-dev? [] (= "true" (:dev env)))
 
 (defn get-assets []
   (concat
@@ -51,10 +43,10 @@
 (def wrapped-handler
   (->
     (routes
-      (-> api-routes
+      (-> api-router/routes
         (wrap-routes json-middleware/wrap-json-body)
         (wrap-routes json-middleware/wrap-json-response))
-      (-> site-routes
+      (-> site-router/routes
           (wrap-routes hiccup-middleware/wrap-base-url)
           (wrap-routes anti-forgery/wrap-anti-forgery)
           (wrap-defaults (assoc-in site-defaults [:security :anti-forgery] false))))
@@ -70,5 +62,5 @@
       wrapped-handler))
 
 (defn -main [& [port]] ;; entry point, lein run will pick up and start from here
-  (let [p (Integer. (or port (env :PORT) 5000))]
+  (let [p (Integer. (or port (:PORT env) 5000))]
     (run-server handler {:port p :join? false})))
