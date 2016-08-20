@@ -9,6 +9,6 @@
   (view/list-view request {:elections (db/elections)})
 )
 
-(defn show [request]
-  (view/show-view request (db/election (:id request)))
+(defn show [{{election-id :id} :params :as request}]
+  (view/show-view request (db/election (read-string election-id)))
 )

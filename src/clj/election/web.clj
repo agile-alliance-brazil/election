@@ -2,6 +2,7 @@
   (:gen-class)
   (:use org.httpkit.server)
   (:require
+    [clojure.tools.logging :as log]
     [ring.middleware.reload :as reload]
     [compojure.core :refer [wrap-routes routes]]
     [compojure.route :as route]
@@ -28,9 +29,9 @@
 (defn get-assets []
   (concat
     (assets/load-bundles "public"
-      {"application.js" ["/js/template.js"]})
+      {"application.js" ["/js/application.js"]})
     (assets/load-bundles "public"
-      {"application.css" ["/css/template.css"]})))
+      {"application.css" ["/css/application.css"]})))
 
 (defn wrap-with-logger [handler]
   (let [logging-handler (logger/wrap-with-logger handler)]
@@ -60,6 +61,8 @@
   (if (in-dev?)
       (reload/wrap-reload wrapped-handler) ;; only reload when dev
       wrapped-handler))
+
+(log/info "Dev mode? " (in-dev?))
 
 (defn -main [& [port]] ;; entry point, lein run will pick up and start from here
   (let [p (Integer. (or port (:PORT env) 5000))]

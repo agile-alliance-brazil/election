@@ -11,5 +11,27 @@
 )
 
 (defn candidates-for [election-id]
-  [{:name "Ceci"} {:name "Erica"} {:name "Rodrigo"} {:name "Celso"} {:name "Annelise"} {:name "Mari"}]
+  (let [
+    conditions (->
+      (select :*)
+      (from :candidates)
+      (where [:= :electionid election-id]))
+      query (sql/format conditions)
+    ]
+    (log/debug "Querying DB for elections with " query)
+    (j/query db-config/dbspec query)
+  )
+)
+
+(defn register-vote [election-id candidate-ids]
+  (let [command 
+    [
+      "UPDATE candidates SET votecount = votecount + 1 WHERE electionid = ? AND id IN (?, ?, ?)"
+      election-id
+      (first candidate-ids) ; TODO: Make it variable for any number of votes
+      (second candidate-ids)
+      (last candidate-ids)
+    ]]
+    (j/execute! db-config/dbspec command)
+  )
 )
