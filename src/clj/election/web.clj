@@ -61,8 +61,6 @@
       (reload/wrap-reload wrapped-handler) ;; only reload when dev
       wrapped-handler))
 
-(log/info "Dev mode? " (in-dev?))
-
 (defn -main [& [port]] ;; entry point, lein run will pick up and start from here
   (let [p (Integer. (or port (:PORT env) 5000))]
     (run-server handler {:port p :join? false})))

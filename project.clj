@@ -1,13 +1,13 @@
 (let [version (str "1.0.0_" (or (System/getenv "BUILD_NUMBER") "SNAPSHOT"))]
   (defproject election version
     :description "An election clojure server"
-    :url "https://election.herokuapps.com"
+    :url "https://aab-election.herokuapps.com"
     :license {:name "MIT"}
     :min-lein-version "2.0.0"
     :source-paths ["src/clj"]
     :test-paths ["test/clj"]
     :main election.web
-    :aot [election.web]
+    :aot [clojure.tools.logging.impl election.web]
     :dependencies [[org.clojure/clojure "1.8.0"]
       [org.clojure/data.zip "0.1.2"]
       [org.clojure/data.xml "0.0.8"]
@@ -27,13 +27,13 @@
       [hiccup "1.0.5"]
       [ragtime "0.6.3"]
       [org.postgresql/postgresql "9.4.1209"]
-      [clojure.jdbc/clojure.jdbc-c3p0 "0.3.2"]
+      [com.mchange/c3p0 "0.9.2.1"]
       [honeysql "0.8.0"]
       [clj-time "0.12.0"]
       [optimus "0.19.0"]
       [com.draines/postal "2.0.1"]
       [com.taoensso/tower "3.1.0-beta4"]]
-    :plugins [[lein-environ "1.0.2"]]
+    :plugins [[lein-environ "1.0.2"] [lein-pprint "1.1.2"]]
     :ring
       { :handler election.web/handler
         :uberwar-name ~(str "election-with-dependencies_" version ".war")}
@@ -54,11 +54,7 @@
       :dev
       { :plugins [[lein-dotenv "RELEASE"] [lein-cooper "1.2.2"]]
         :env {:development "true" :clj-env "development"}
-        :resource-paths ["resources"]
-        :dependencies [[clj-livereload "0.2.0"]
-          [org.clojure/tools.nrepl "0.2.12"]]
-        :injections [(require 'clj-livereload.server)
-          (clj-livereload.server/start! {:paths ["resources/public/" "src/clj/election/"] :debug? true})]
+        :dependencies [[clj-livereload "0.2.0"]]
         :cooper {"test"     ["lein" "with-profile" "base,test" "test-refresh"]
                  "server"   ["lein" "run"]}}
       :repl
@@ -66,7 +62,6 @@
         :env {:development "true" :clj-env "development"}
         :dependencies [[org.clojure/tools.nrepl "0.2.12"]]
         :resource-paths ["resources"]}}
-    :test-refresh {:notify-command ["terminal-notifier" "-title" "Skeleton Tests" "-message"]}
     :aliases {"migrate"  ["with-profile" "base" "run" "-m" "election.db.migration/migrate"]
               "rollback" ["with-profile" "base" "run" "-m" "election.db.migration/rollback"]
               "repl" ["with-profile" "base" "repl"]

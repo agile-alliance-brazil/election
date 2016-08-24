@@ -14,7 +14,7 @@
 
 (defn- last-migration []
   (let [query { :select [:id] :from [:ragtime_migrations] :order-by [[:id :desc]] :limit 1 }
-    result (j/query db-config/dbspec (sql/format query))]
+    result (j/query (db-config/dbspec) (sql/format query))]
     (:id (first result))
   )
 )

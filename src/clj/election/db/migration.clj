@@ -6,7 +6,7 @@
 
 (def ragtime-config
   {
-    :datastore  (jdbc/sql-database config/dbspec)
+    :datastore  (jdbc/sql-database (config/dbspec))
     :migrations (jdbc/load-resources "migrations")
   })
 

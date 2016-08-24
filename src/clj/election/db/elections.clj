@@ -6,20 +6,20 @@
     [clj-time.local :as l]
     [election.db.config :as db-config]
     [honeysql.core :as sql]
-    [honeysql.helpers :refer :all]
+    [honeysql.helpers :as h]
   )
 )
 
 (defn election [id]
   (let [
     conditions (->
-      (select :*)
-      (from :elections)
-      (where [:= :id id]))
+      (h/select :*)
+      (h/from :elections)
+      (h/where [:= :id id]))
     query (sql/format conditions)
     ]
     (log/debug "Querying DB for election with " query)
-    (first (j/query db-config/dbspec query))
+    (first (j/query (db-config/dbspec) query))
   )
 )
 
@@ -33,13 +33,13 @@
   ([columns options]
     (let [
       conditions (->
-        (select columns)
-        (from :elections)
+        (h/select columns)
+        (h/from :elections)
         (merge options))
         query (sql/format conditions)
       ]
       (log/debug "Querying DB for elections with " query)
-      (j/query db-config/dbspec query)
+      (j/query (db-config/dbspec) query)
     )
   )
 )
