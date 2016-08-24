@@ -62,5 +62,5 @@
       wrapped-handler))
 
 (defn -main [& [port]] ;; entry point, lein run will pick up and start from here
-  (let [p (Integer. (or port (:PORT env) 5000))]
+  (let [p (Integer. (or port (:port env) 5000))]
     (run-server handler {:port p :join? false})))

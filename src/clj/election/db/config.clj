@@ -6,22 +6,23 @@
 (def postgres-url
   (env :postgres-sql))
 
+(def postgres-protocol "postgresql")
+
 ; If you use a relational DB, using JDBC
-(def jdbc-config
+(def postgres-jdbc-config
   (if (nil? postgres-url)
     {}
     (let [uri-matches (re-matches #"^([^:]+):\/\/(?:([^:]*):([^@]*)@)?([^\s\n]*)" postgres-url)
-      subprotocol (nth uri-matches 1)
       subname (str "//" (nth uri-matches 4))
       user (nth uri-matches 2)
       password (nth uri-matches 3)]
       (if (nil? user)
         {
-          :subprotocol subprotocol
+          :subprotocol postgres-protocol
           :subname subname
         }
         {
-          :subprotocol subprotocol
+          :subprotocol postgres-protocol
           :subname subname
           :user user
           :password password
@@ -33,7 +34,7 @@
 
 (defn pool [spec]
   (let [cpds (doto (ComboPooledDataSource.)
-               (.setJdbcUrl (str "jdbc:postgresql:" (:subname spec)))
+               (.setJdbcUrl (str "jdbc:" (:subprotocol spec) ":" (:subname spec)))
                (.setUser (:user spec))
                (.setPassword (:password spec))
                ;; expire excess connections after 30 minutes of inactivity:
@@ -43,6 +44,6 @@
     {:datasource cpds})
 )
 
-(def pooled-db (delay (pool jdbc-config)))
+(def pooled-db (delay (pool postgres-jdbc-config)))
 
 (defn dbspec [] @pooled-db)
