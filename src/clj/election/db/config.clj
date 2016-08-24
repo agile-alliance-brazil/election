@@ -33,8 +33,7 @@
 
 (defn pool [spec]
   (let [cpds (doto (ComboPooledDataSource.)
-               (.setDriverClass (:classname spec)) 
-               (.setJdbcUrl (str "jdbc:" (:subprotocol spec) ":" (:subname spec)))
+               (.setJdbcUrl (str "jdbc:postgresql:" (:subname spec)))
                (.setUser (:user spec))
                (.setPassword (:password spec))
                ;; expire excess connections after 30 minutes of inactivity:
