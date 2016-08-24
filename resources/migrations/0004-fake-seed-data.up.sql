@@ -23,7 +23,7 @@ VALUES (
   1,
   'Harley Quinn',
   'She is not quite your usual woman but she can make you completely mad',
-  'john.doe@email.com',
+  'harley.quinn@joker.com',
   0);
 INSERT INTO candidates (
   id, electionid, fullname, minibio, email, votecount)
@@ -32,7 +32,7 @@ VALUES (
   1,
   'Barbara Gordon',
   'Father is a known police hero. She is quite the show herself although you wont be seeing her much around after hours. She has other plans',
-  'mary@winterfell.com',
+  'barbara.gordon@gothampd.com',
   0);
 INSERT INTO candidates (
   id, electionid, fullname, minibio, email, votecount)

@@ -1,4 +1,7 @@
 (ns election.routes.paths
+  (:require
+    [environ.core :refer [env]]
+  )
 )
 
 (def elections-matcher "/")
@@ -12,3 +15,7 @@
 
 (def status-matcher "/status")
 (defn status-path [] status-matcher)
+
+(defn url-for [p]
+  (str (:host env) p)
+)

@@ -36,3 +36,7 @@
     (first (j/execute! db-config/dbspec update-statement))
   )
 )
+
+(defn save-token [{{election-id :id} :election token :token}]
+  (j/insert! db-config/dbspec :voting_tokens {:electionid election-id :token token :used false})
+)

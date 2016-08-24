@@ -12,6 +12,7 @@
       [org.clojure/data.zip "0.1.2"]
       [org.clojure/data.xml "0.0.8"]
       [org.clojure/data.json "0.2.6"]
+      [org.clojure/data.csv "0.1.3"]
       [org.clojure/tools.logging "0.3.1"]
       [javax.servlet/javax.servlet-api "3.1.0"]
       [compojure "1.5.1"]
@@ -29,7 +30,9 @@
       [clojure.jdbc/clojure.jdbc-c3p0 "0.3.2"]
       [honeysql "0.8.0"]
       [clj-time "0.12.0"]
-      [optimus "0.19.0"]]
+      [optimus "0.19.0"]
+      [com.draines/postal "2.0.1"]
+      [com.taoensso/tower "3.1.0-beta4"]]
     :plugins [[lein-environ "1.0.2"]]
     :ring
       { :handler election.web/handler
@@ -65,4 +68,6 @@
         :resource-paths ["resources"]}}
     :test-refresh {:notify-command ["terminal-notifier" "-title" "Skeleton Tests" "-message"]}
     :aliases {"migrate"  ["with-profile" "base" "run" "-m" "election.db.migration/migrate"]
-              "rollback" ["with-profile" "base" "run" "-m" "election.db.migration/rollback"]}))
+              "rollback" ["with-profile" "base" "run" "-m" "election.db.migration/rollback"]
+              "repl" ["with-profile" "base" "repl"]
+              "import" ["with-profile" "base" "run" "-m" "election.controllers.tokens/import-voters"]}))
