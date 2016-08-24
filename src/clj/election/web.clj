@@ -18,7 +18,6 @@
     [optimus.assets :as assets]
     [optimus.optimizations :as optimizations]
     [optimus.strategies :as strategies]
-    [election.status :as status]
     [election.routes.site-router :as site-router]
     [election.routes.api-router :as api-router]
   )
