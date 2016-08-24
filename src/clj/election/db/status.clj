@@ -24,7 +24,7 @@
     (str "DB connection is up. Last migration: " (or (last-migration) "none."))
     (catch Exception e
       (str "DB connection failed. Connection/query to "
-        (hide-password db-config/jdbc-config) " failed with: "
+        (hide-password db-config/postgres-jdbc-config) " failed with: "
         e (.getMessage e)
       )
     )
