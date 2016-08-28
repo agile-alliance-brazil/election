@@ -28,7 +28,7 @@
 (defn get-assets []
   (concat
     (assets/load-bundles "public"
-      {"application.js" ["/js/application.js"]})
+      {"application.js" ["/js/application.js", "/js/vote.js"]})
     (assets/load-bundles "public"
       {"application.css" ["/css/application.css"]})))
 

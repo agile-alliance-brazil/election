@@ -13,12 +13,12 @@
 
 (defn- generate-tokens-for [voters]
   (map
-    (fn [voter] {:email (second voter) :name (first voter) :token (bridge/random-uuid)})
+    (fn [voter] {:email (:email voter) :name (:fullname voter) :token (bridge/random-uuid)})
     voters
   )
 )
 
-(defn send-email [token]
+(defn send-email [{{name :name} :election email :email :as token}]
   (postal/send-message
     {
       :user (:aws-user env)
@@ -28,8 +28,8 @@
     }
     {
       :from (:email-sender env)
-      :to (:email token)
-      :subject (str "You're invited to vote in " (:name (:election token)) "!")
+      :to email
+      :subject (str "You're invited to vote in " name "!")
       :body (mailer/election-token-email-body token)
     }
   )
@@ -38,14 +38,14 @@
 (defn- register-tokens [election tokens]
   (map
     (fn [token] (and (tokens/save-token token) (send-email token)))
-    (map #(merge % {:election election}) tokens)
+    (map #(assoc % :election election) tokens)
   )
 )
 
 (defn notify-voters [election-id]
   (let [election (elections/election (read-string election-id))
-    voters (voters/voters-for election-id)]
-    (register-tokens election (generate-tokens-for voters))
+    voters (voters/voters-for (:id election))]
+    (doall (register-tokens election (generate-tokens-for voters)))
   )
 )
 

@@ -10,6 +10,35 @@
   )
 )
 
+(defn- token-count-base [election-id]
+  (->
+    (h/select :%count.*)
+    (h/from :voting_tokens)
+    (h/where [:= :electionid election-id])
+  )
+)
+
+(defn token-count-for [election-id]
+  (->>
+    (token-count-base election-id)
+    sql/format
+    (j/query (db-config/dbspec))
+    first
+  )
+)
+
+(defn used-token-count-for [election-id]
+  (->>
+    (->
+      (token-count-base election-id)
+      (h/merge-where [:= :used true])
+    )
+    sql/format
+    (j/query (db-config/dbspec))
+    first
+  )
+)
+
 (defn get-valid-token [election-id k]
   (let [
     conditions (->

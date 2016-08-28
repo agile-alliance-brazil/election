@@ -32,16 +32,16 @@
   )
 )
 
-(defn new-vote [{{election :election-id token :token} :params :as request}]
-  (let [election-id (read-string election)]
-    (if (and (in-election-phase? election-id) (valid-token? election-id token))
+(defn new-vote [{{election-id :election-id token :token} :params :as request}]
+  (let [election (elections/election (read-string election-id))]
+    (if (and (in-election-phase? (:id election)) (valid-token? (:id election) token))
       (view/place-vote-view
         request
-        {:candidates (db/candidates-for election-id)}
+        (assoc election :candidates (db/candidates-for (:id election)))
       )
       (->
-        (redirect (paths/election-path election-id))
-        (assoc :flash (build-flash election-id token))
+        (redirect (paths/election-path (:id election)))
+        (assoc :flash (build-flash (:id election) token))
       )
     )
   )

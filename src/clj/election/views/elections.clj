@@ -40,6 +40,14 @@
       result
       0)))
 
+(defn- sorted-candidates-by-vote [election-id]
+  (sort-by
+    (juxt :votecount :fullname)
+    (compare-many [> compare])
+    (candidates/candidates-for election-id)
+  )
+)
+
 (defn show-view [{session :session :as request} {election-id :id end-date :enddate start-date :startdate :as election}]
   (log/info "Rendering election show view with " election)
   (layout/election-layout (assoc request :election election)
@@ -54,7 +62,7 @@
       [:ul
         (map
           (fn [candidate] (votes/render-candidate-base candidate (fn [c] [:p "Votes: " (:votecount c)])))
-          (sort-by (juxt :votecount :fullname) (compare-many [> compare]) (candidates/candidates-for election-id))
+          (sorted-candidates-by-vote election-id)
         )
       ]
     ]
@@ -62,9 +70,8 @@
 )
 
 (defn show-json-view [_ {election-id :id name :name end-date :enddate start-date :startdate :as election}]
-  (let [voter-count 0
-    vote-count 0
-    candidates (candidates/candidates-for election-id)]
+  (let [voter-count (tokens/token-count-for election-id)
+    vote-count (tokens/used-token-count-for election-id)]
     (response
       {
         :id election-id
@@ -82,7 +89,7 @@
               :voteCount (:votecount c)
             }
           )
-          candidates)
+          (sorted-candidates-by-vote election-id))
       }
     )
   )

@@ -76,4 +76,4 @@
         :resource-paths ["resources"]}}
     :aliases {"migrate"  ["with-profile" "base" "run" "-m" "election.db.migration/migrate"]
               "rollback" ["with-profile" "base" "run" "-m" "election.db.migration/rollback"]
-              "import" ["with-profile" "base" "run" "-m" "election.controllers.tokens/import-voters"]}))
+              "notify-voters" ["with-profile" "base" "run" "-m" "election.controllers.tokens/notify-voters"]}))

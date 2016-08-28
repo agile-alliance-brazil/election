@@ -29,13 +29,13 @@
   (render-candidate-base candidate (fn [c] [:p (:minibio c)]))
 )
 
-(defn place-vote-view [{{token :token :as params} :params :as request} {election-id :id :as election}]
+(defn place-vote-view [{{token :token :as params} :params :as request} {election-id :id candidates :candidates :as election}]
   (log/info "Rendering place vote view with " election " and request " params)
   (layout/election-layout (assoc request :election election)
     (form-to {:class "vote"} [:post (paths/place-vote-path election-id token)]
       (anti-forgery-field)
       [:ul.candidates
-        (list* (map render-candidate (shuffle (:candidates election))))
+        (list* (map render-candidate (shuffle candidates)))
         (submit-button {:class "clear" :disabled "disabled"} "Place vote")
       ]
       (list* (map render-position (elections/positions-to-vote-on election-id)))
