@@ -31,6 +31,7 @@
       [honeysql "0.8.0"]
       [clj-time "0.12.0"]
       [optimus "0.19.0"]
+      [digest "1.4.4"]
       [com.draines/postal "2.0.1"]
       [com.taoensso/tower "3.1.0-beta4"]
       [slingshot "0.12.2"]]

@@ -4,6 +4,7 @@
     [election.views.layout :as layout]
     [election.routes.paths :as paths]
     [election.db.elections :as elections]
+    [election.models.candidates :as candidates]
     [hiccup.form :refer (form-to text-field submit-button)]
     [ring.util.anti-forgery :refer [anti-forgery-field]]
     [hiccup.form :as form]
@@ -16,18 +17,10 @@
   )
 )
 
-(defn- md5-sum [content]
-  content)
-
-(defn- gravatar-url [email]
-  (str "https://gravatar.com/" (md5-sum email) "?size=medium")
-  ""
-)
-
 (defn render-candidate-base [candidate extra-content-function]
   [:li.candidate{:data-candidate-id (:id candidate) :id (str "candidate-" (:id candidate))}
     [:h3.name (:fullname candidate)]
-    [:img.photo{:src (gravatar-url (:email candidate))}]
+    [:img.photo{:src (candidates/picture-url candidate)}]
     (extra-content-function candidate)
   ]
 )

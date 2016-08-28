@@ -8,7 +8,7 @@
     [election.authorization :as auth]
     [election.routes.paths :as paths]
     [election.controllers.tokens :as tokens]
-    [ring.util.response :refer [redirect]]
+    [ring.util.response :as response]
   )
 )
 
@@ -17,7 +17,21 @@
 )
 
 (defn show [{{election-id :election-id} :params :as request}]
-  (view/show-view request (db/election (read-string election-id)))
+  (let [election (db/election (read-string election-id))]
+    (if (nil? (:id election))
+      (response/not-found (slurp (io/resource "404.html")))
+      (view/show-view request (db/election (read-string election-id)))
+    )
+  )
+)
+
+(defn show-json  [{{election-id :election-id} :params :as request}]
+  (let [election (db/election (read-string election-id))]
+    (if (nil? (:id election))
+      (response/not-found {:message (str "No election with ID " election-id " found.")})
+      (view/show-json-view request election)
+    )
+  )
 )
 
 (defn new-voters [{{election-id :election-id} :params session :session :as request}]
@@ -25,7 +39,7 @@
     (if (auth/can-register-voters? election (:user session))
       (view/new-voters-view request election)
       (->
-        (redirect (paths/election-path election-id))
+        (response/redirect (paths/election-path election-id))
         (assoc :flash {:type :error :message "Unauthorized access"})
       )
     )
@@ -44,7 +58,7 @@
 
 (defn register-voters [{{election-id :election-id voters-file :voters} :params session :session :as request}]
   (let [election (db/election (read-string election-id))
-    response (redirect (paths/election-path election-id))]
+    response (response/redirect (paths/election-path election-id))]
     (if (auth/can-register-voters? election (:user session))
       (let [added-voters-count (voters/register-voters (:id election) (voters-from voters-file))]
         (if added-voters-count

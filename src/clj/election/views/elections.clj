@@ -10,8 +10,10 @@
     [election.routes.paths :as paths]
     [election.db.tokens :as tokens]
     [election.db.candidates :as candidates]
+    [election.models.candidates :as candidate]
     [election.authorization :as auth]
     [ring.util.anti-forgery :refer [anti-forgery-field]]
+    [ring.util.response :refer [response]]
     [clj-time.core :as t]
     [clj-time.coerce :as c]
   )
@@ -56,6 +58,33 @@
         )
       ]
     ]
+  )
+)
+
+(defn show-json-view [_ {election-id :id name :name end-date :enddate start-date :startdate :as election}]
+  (let [voter-count 0
+    vote-count 0
+    candidates (candidates/candidates-for election-id)]
+    (response
+      {
+        :id election-id
+        :name name
+        :startDate start-date
+        :endDate end-date
+        :registeredVotersCount voter-count
+        :votesCastCount vote-count
+        :candidates
+        (map
+          (fn [c]
+            {
+              :name (:fullname c)
+              :pictureUrl (candidate/picture-url c)
+              :voteCount (:votecount c)
+            }
+          )
+          candidates)
+      }
+    )
   )
 )
 
