@@ -7,4 +7,8 @@
 (defroutes routes
   (context "/api" []
     (context "/v1" []
-      (GET "/" request (response {:type "success" :message "Hi world"})))))
+      (GET "/" request (response {:type "success" :message "Hi world"}))
+    )
+  )
+  
+)

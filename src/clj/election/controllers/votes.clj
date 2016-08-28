@@ -23,13 +23,11 @@
   )
 )
 
-(defn- build-redirect-flash [election-id token]
+(defn- build-flash [election-id token]
   (let [message (if (in-election-phase? election-id) "Token already used" "Not currently in voting period")]
-    {:flash
-      {
-        :type :error
-        :message message
-      }
+    {
+      :type :error
+      :message message
     }
   )
 )
@@ -41,9 +39,9 @@
         request
         {:candidates (db/candidates-for election-id)}
       )
-      (merge
+      (->
         (redirect (paths/election-path election-id))
-        (build-redirect-flash election-id token)
+        (assoc :flash (build-flash election-id token))
       )
     )
   )
@@ -72,11 +70,19 @@
 (defn place [{{election :election-id token :token votes :vote} :params :as request}]
   (let [election-id (read-string election)]
     (if (valid-vote? election-id votes)
-      (let [redirection (redirect (paths/election-path election-id))
-        flash (register-vote election-id (map read-string votes) token)]
-        (merge redirection {:flash flash})
+      (->
+        (redirect (paths/election-path election-id))
+        (assoc
+          :flash
+          (register-vote election-id (map read-string votes) token)
+        )
       )
-      (new-vote (merge request {:flash {:type :error :message "Invalid vote. Please ensure you selected the right amount of candidates."}}))
+      (new-vote
+        (->
+          request
+          (assoc :flash {:type :error :message "Invalid vote. Please ensure you selected the right amount of candidates."})
+        )
+      )
     )
   )
 )

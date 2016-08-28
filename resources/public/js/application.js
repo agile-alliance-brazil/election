@@ -25,7 +25,7 @@
   };
 
   var checkSubmition = function() {
-    $('input[type="submit"]').prop('disabled', $('li.candidate.selected').size() !== 3);
+    $('form.vote input[type="submit"]').prop('disabled', $('li.candidate.selected').size() !== 3);
   };
 
   var toggleVote = function() {

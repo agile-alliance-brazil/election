@@ -23,7 +23,7 @@
       [ring.middleware.logger "0.5.0"]
       [http-kit "2.2.0"]
       [environ "1.1.0"]
-      [clj-http "3.1.0"]
+      [clj-http "3.2.0"]
       [hiccup "1.0.5"]
       [ragtime "0.6.3"]
       [org.postgresql/postgresql "9.4.1209"]
@@ -32,7 +32,8 @@
       [clj-time "0.12.0"]
       [optimus "0.19.0"]
       [com.draines/postal "2.0.1"]
-      [com.taoensso/tower "3.1.0-beta4"]]
+      [com.taoensso/tower "3.1.0-beta4"]
+      [slingshot "0.12.2"]]
     :plugins [[lein-environ "1.0.2"] [lein-pprint "1.1.2"]]
     :ring
       { :handler election.web/handler
@@ -47,16 +48,26 @@
           [lein-cloverage "1.0.6"]
           [lein-dotenv "RELEASE"]]
         :resource-paths ["resources" "test/resources/"]
-        :dependencies [[pjstadig/humane-test-output "0.8.0"]]
+        :dependencies [[pjstadig/humane-test-output "0.8.1"]]
         :env {:test "true" :clj-env "test"}
         :injections [(require 'pjstadig.humane-test-output)
           (pjstadig.humane-test-output/activate!)]}
+      :interactive {
+        :dependencies [[clj-livereload "0.2.0"]]
+        :injections [(require 'clj-livereload.server)
+          (clj-livereload.server/start!
+            {
+              :paths ["resources/", "src/clj/election"]
+              :debug? true
+            }
+          )
+        ]
+      }
       :dev
       { :plugins [[lein-dotenv "RELEASE"] [lein-cooper "1.2.2"]]
         :env {:development "true" :clj-env "development"}
-        :dependencies [[clj-livereload "0.2.0"]]
         :cooper {"test"     ["lein" "with-profile" "base,test" "test-refresh"]
-                 "server"   ["lein" "run"]}}
+                 "server"   ["lein" "with-profile" "base,dev,interactive" "run"]}}
       :repl
       { :plugins [[lein-dotenv "RELEASE"]]
         :env {:development "true" :clj-env "development"}
@@ -64,5 +75,4 @@
         :resource-paths ["resources"]}}
     :aliases {"migrate"  ["with-profile" "base" "run" "-m" "election.db.migration/migrate"]
               "rollback" ["with-profile" "base" "run" "-m" "election.db.migration/rollback"]
-              "repl" ["with-profile" "base" "repl"]
               "import" ["with-profile" "base" "run" "-m" "election.controllers.tokens/import-voters"]}))

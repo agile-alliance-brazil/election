@@ -23,11 +23,12 @@ fi
 
 sleep 1
 
-if [[ -z `cat ${MY_DIR}/../.env | grep POSTGRES_SQL` ]]; then
-  printf "\nPOSTGRES_SQL=postgresql://127.0.0.1:5432/${DB_NAME}\n" >> ${MY_DIR}/../.env
+DATABASE_URL="postgresql://127.0.0.1:5432/${DB_NAME}"
+if [[ -z `cat ${MY_DIR}/../.env | grep DATABASE_URL` ]]; then
+  printf "\nDATABASE_URL=${DATABASE_URL}\n" >> ${MY_DIR}/../.env
 fi
 
 (createdb ${DB_NAME} &> /dev/null && echo "Created DB ${DB_NAME}") || (echo "Database ${DB_NAME} already exists" &> /dev/null)
 
 echo "Running migrations"
-POSTGRES_SQL="postgresql://127.0.0.1:5432/${DB_NAME}" ${MY_DIR}/../bin/lein migrate
+DATABASE_URL=${DATABASE_URL} ${MY_DIR}/../bin/lein migrate

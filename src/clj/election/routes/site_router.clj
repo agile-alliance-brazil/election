@@ -4,6 +4,7 @@
     [compojure.core :refer [defroutes GET PUT POST DELETE ANY context]]
     [election.controllers.elections :as elections]
     [election.controllers.votes :as votes]
+    [election.controllers.session :as session]
     [election.views.status :as status]
     [election.routes.paths :as paths]
   )
@@ -15,4 +16,9 @@
   (GET paths/place-vote-matcher request (votes/new-vote request))
   (POST paths/place-vote-matcher request (votes/place request))
   (GET paths/status-matcher request (status/render-view request))
+  (GET paths/login-matcher request (session/new-session request))
+  (GET paths/oauth-callback-matcher request (session/login request))
+  (GET paths/logout-matcher request (session/destroy-session request))
+  (GET paths/new-election-voters-matcher request (elections/new-voters request))
+  (PUT paths/register-election-voters-matcher request (elections/register-voters request))
 )

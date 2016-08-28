@@ -1,7 +1,14 @@
 (ns election.controllers.elections
   (:require
+    [clojure.data.csv :as csv]
+    [clojure.java.io :as io]
     [election.views.elections :as view]
     [election.db.elections :as db]
+    [election.db.voters :as voters]
+    [election.authorization :as auth]
+    [election.routes.paths :as paths]
+    [election.controllers.tokens :as tokens]
+    [ring.util.response :refer [redirect]]
   )
 )
 
@@ -11,4 +18,41 @@
 
 (defn show [{{election-id :id} :params :as request}]
   (view/show-view request (db/election (read-string election-id)))
+)
+
+(defn new-voters [{{election-id :election-id} :params session :session :as request}]
+  (let [election (db/election (read-string election-id))]
+    (if (auth/can-register-voters? election (:user session))
+      (view/new-voters-view request election)
+      (->
+        (redirect (paths/election-path election-id))
+        (assoc :flash {:type :error :message "Unauthorized access"})
+      )
+    )
+  )
+)
+
+(defn- voters-from [voter-file]
+  (rest ; Removes the header line
+    (with-open [in-file (io/reader voter-file)]
+      (doall
+        (csv/read-csv in-file)
+      )
+    )
+  )
+)
+
+(defn register-voters [{{election-id :election-id voters-file :voters} :params session :session :as request}]
+  (let [election (db/election (read-string election-id))
+    response (redirect (paths/election-path election-id))]
+    (if (auth/can-register-voters? election (:user session))
+      (let [added-voters-count (voters/register-voters (:id election) (voters-from voters-file))]
+        (if added-voters-count
+          (assoc response :flash {:type :notice :message (str added-voters-count " new voters registered.")})
+          (assoc response :flash {:type :error :message "Voter registration failed"})
+        )
+      )
+      (assoc response :flash {:type :error :message "Unauthorized access"})
+    )
+  )
 )

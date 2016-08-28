@@ -3,12 +3,15 @@
     [clojure.tools.logging :as log]
     [hiccup.page :as page]
     [hiccup.element :refer (link-to)]
+    [hiccup.form :as form]
     [optimus.link :as link]
     [election.views.layout :as layout]
     [election.views.votes :as votes]
     [election.routes.paths :as paths]
     [election.db.tokens :as tokens]
     [election.db.candidates :as candidates]
+    [election.authorization :as auth]
+    [ring.util.anti-forgery :refer [anti-forgery-field]]
     [clj-time.core :as t]
     [clj-time.coerce :as c]
   )
@@ -35,11 +38,13 @@
       result
       0)))
 
-(defn show-view [request {election-id :id name :name end-date :enddate :as data}]
-  (log/info "Rendering election show view with " data)
-  (layout/layout request
-    [:div.election
-      [:h1 name]
+(defn show-view [{session :session :as request} {election-id :id end-date :enddate start-date :startdate :as election}]
+  (log/info "Rendering election show view with " election)
+  (layout/election-layout (assoc request :election election)
+    [:div
+      (if (auth/can-register-voters? election (:user session))
+        (link-to (paths/new-election-voters-path election-id) "Register voters")
+      )
       (if (t/before? (t/now) (c/from-sql-time end-date))
         [:h3 "Partial results"]
         [:h3 "Final results"]
@@ -51,5 +56,15 @@
         )
       ]
     ]
+  )
+)
+
+(defn new-voters-view [request {election-id :id :as election}]
+  (layout/election-layout (assoc request :election election)
+    (form/form-to [:put (paths/register-election-voters-path election-id)]
+      (anti-forgery-field)
+      (form/file-upload :voters)
+      (form/submit-button {:disabled false} "Add voter list")
+    )
   )
 )

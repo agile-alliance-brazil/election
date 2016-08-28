@@ -4,7 +4,7 @@
     [clojure.tools.logging :as log]))
 
 (def postgres-url
-  (env :postgres-sql))
+  (env :database-url))
 
 (def postgres-protocol "postgresql")
 

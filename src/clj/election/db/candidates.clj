@@ -18,7 +18,7 @@
       (h/where [:= :electionid election-id]))
       query (sql/format conditions)
     ]
-    (log/debug "Querying DB for elections with " query)
+    (log/debug "Querying DB for candidates with " query)
     (j/query (db-config/dbspec) query)
   )
 )

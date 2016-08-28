@@ -1,33 +1,19 @@
 (ns election.controllers.tokens
   (:gen-class)
   (:require
-    [clojure.data.csv :as csv]
-    [clojure.java.io :as io]
     [postal.core :as postal]
     [environ.core :refer [env]]
     [election.views.mailer :as mailer]
     [election.db.elections :as elections]
+    [election.db.voters :as voters]
     [election.db.tokens :as tokens]
+    [election.java-bridge :as bridge]
   )
 )
-
-
-(defn- voters-from [voter-file]
-  (rest ; Removes the header line
-    (with-open [in-file (io/reader voter-file)]
-      (doall
-        (csv/read-csv in-file)
-      )
-    )
-  )
-)
-
-(defn- random-token []
-  (str (java.util.UUID/randomUUID)))
 
 (defn- generate-tokens-for [voters]
   (map
-    (fn [voter] {:email (second voter) :name (first voter) :token (random-token)})
+    (fn [voter] {:email (second voter) :name (first voter) :token (bridge/random-uuid)})
     voters
   )
 )
@@ -46,29 +32,23 @@
       :subject (str "You're invited to vote in " (:name (:election token)) "!")
       :body (mailer/election-token-email-body token)
     }
-  ))
-
-(defn- register-tokens [election-id tokens]
-  (let [election (elections/election (read-string election-id))]
-    (map
-      (fn [token] (and (tokens/save-token token) (send-email token)))
-      (map #(merge % {:election election}) tokens)
-    )
   )
 )
 
-(defn import-voters [election-id & voter-files]
-  (let [voters (reduce into [] (map voters-from voter-files))
-    new-tokens (register-tokens election-id (generate-tokens-for voters))]
-    (doall
-      (map
-        #(println %)
-        new-tokens
-      )
-    )
+(defn- register-tokens [election tokens]
+  (map
+    (fn [token] (and (tokens/save-token token) (send-email token)))
+    (map #(merge % {:election election}) tokens)
   )
 )
 
-(defn -main [election-id & voter-files]
-  (import-voters election-id (list* voter-files))
+(defn notify-voters [election-id]
+  (let [election (elections/election (read-string election-id))
+    voters (voters/voters-for election-id)]
+    (register-tokens election (generate-tokens-for voters))
+  )
+)
+
+(defn -main [election-id]
+  (notify-voters election-id)
 )
