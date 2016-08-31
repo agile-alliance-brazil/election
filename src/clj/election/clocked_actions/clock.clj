@@ -9,7 +9,7 @@
   )
 )
 
-(def clock-interval (or (read-string (:clock-interval env)) 500))
+(def clock-interval (read-string (or (:clock-interval env) "500")))
 
 (def actions
   [
