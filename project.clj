@@ -7,7 +7,7 @@
     :source-paths ["src/clj"]
     :test-paths ["test/clj"]
     :main election.web
-    :aot [clojure.tools.logging.impl election.web]
+    :aot [clojure.tools.logging.impl election.web election.clocked-actions.clock]
     :dependencies [[org.clojure/clojure "1.8.0"]
       [org.clojure/data.zip "0.1.2"]
       [org.clojure/data.xml "0.0.8"]
@@ -19,7 +19,8 @@
       [ring/ring-defaults "0.2.1"]
       [ring/ring-core "1.5.0"]
       [ring/ring-devel "1.5.0"]
-      [ring/ring-json "0.4.0"]
+      [cheshire "5.6.3"]
+      [ring/ring-json "0.4.0" :exclusions [cheshire]]
       [ring.middleware.logger "0.5.0"]
       [http-kit "2.2.0"]
       [environ "1.1.0"]
@@ -34,7 +35,8 @@
       [digest "1.4.5"]
       [com.draines/postal "2.0.1"]
       [com.taoensso/tower "3.1.0-beta4"]
-      [slingshot "0.12.2"]]
+      [slingshot "0.12.2"]
+      [clojurewerkz/quartzite "2.0.0" :exclusions [c3p0]]]
     :plugins [[lein-environ "1.0.2"] [lein-pprint "1.1.2"]]
     :ring
       { :handler election.web/handler
@@ -68,12 +70,13 @@
       { :plugins [[lein-dotenv "RELEASE"] [lein-cooper "1.2.2"]]
         :env {:development "true" :clj-env "development"}
         :cooper {"test"     ["lein" "with-profile" "base,test" "test-refresh"]
-                 "server"   ["lein" "with-profile" "base,dev,interactive" "run"]}}
+                 "server"   ["lein" "with-profile" "base,dev,interactive" "run"]
+                 "clock"    ["lein" "run" "-m" "election.clocked-actions.clock"]}}
       :repl
       { :plugins [[lein-dotenv "RELEASE"]]
         :env {:development "true" :clj-env "development"}
         :dependencies [[org.clojure/tools.nrepl "0.2.12"]]
         :resource-paths ["resources"]}}
-    :aliases {"migrate"  ["with-profile" "base" "run" "-m" "election.db.migration/migrate"]
-              "rollback" ["with-profile" "base" "run" "-m" "election.db.migration/rollback"]
-              "notify-voters" ["with-profile" "base" "run" "-m" "election.controllers.tokens/notify-voters"]}))
+    :aliases {"migrate"  ["run" "-m" "election.db.migration/migrate"]
+              "rollback" ["run" "-m" "election.db.migration/rollback"]
+              "notify-voters" ["run" "-m" "election.controllers.tokens/notify-voters"]}))

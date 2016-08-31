@@ -17,10 +17,14 @@ AWS_HOST=email-smtp.us-east-1.amazonaws.com\n\
 AWS_USER=smtp_user\n\
 AWS_PASS=smtp_password\n\
 AWS_IAM=smtp_iam_identifier\n\
-HOST=http://localhost:5000\n" > ${MY_DIR}/.env
+HOST=http://localhost:5000\n\
+CLOCK_INTERVAL=10000\n\
+IDENTITY_HOST=https://agile-alliance-brazil-identity.herokuapp.com\n\
+IDENTITY_CLIENT_ID=ID\n\
+IDENTITY_CLIENT_SECRET=SECRET\n" > ${MY_DIR}/.env
 fi
 
 ${MY_DIR}/scripts/start_postgres.sh
 
-echo "Starting servers..."
+echo "Starting processes..."
 ${MY_DIR}/bin/lein cooper

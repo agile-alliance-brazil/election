@@ -1,1 +1,2 @@
-web: java $JVM_OPTS -cp target/election-standalone_1.0.0_SNAPSHOT.jar clojure.main -m election.web
+web: lein run -m election.web
+clock: lein run -m election.clocked-actions.clock

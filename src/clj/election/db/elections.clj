@@ -3,6 +3,7 @@
     [clojure.tools.logging :as log]
     [clojure.java.jdbc :as j]
     [clj-time.core :as t]
+    [clj-time.coerce :as c]
     [clj-time.local :as l]
     [election.db.config :as db-config]
     [honeysql.core :as sql]
@@ -40,6 +41,20 @@
       ]
       (log/debug "Querying DB for elections with " query)
       (j/query (db-config/dbspec) query)
+    )
+  )
+)
+
+(defn started-since-now-and [past-time]
+  (elections
+    :*
+    (->
+      (h/where
+        [:and
+          [:< :startdate (c/to-sql-time (t/now))]
+          [:>= :startdate (c/to-sql-time past-time)]
+        ]
+      )
     )
   )
 )
