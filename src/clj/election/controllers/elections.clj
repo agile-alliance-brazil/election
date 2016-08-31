@@ -56,7 +56,7 @@
   )
 )
 
-(defn register-voters [{{election-id :election-id voters-file :voters} :params session :session :as request}]
+(defn register-voters [{{election-id :election-id {voters-file :tempfile} :voters} :params session :session :as request}]
   (let [election (db/election (read-string election-id))
     response (response/redirect (paths/election-path election-id))]
     (if (auth/can-register-voters? election (:user session))

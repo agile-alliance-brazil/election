@@ -97,7 +97,7 @@
 
 (defn new-voters-view [request {election-id :id :as election}]
   (layout/election-layout (assoc request :election election)
-    (form/form-to [:put (paths/register-election-voters-path election-id)]
+    (form/form-to {:enctype "multipart/form-data"} [:put (paths/register-election-voters-path election-id)]
       (anti-forgery-field)
       (form/file-upload :voters)
       (form/submit-button {:disabled false} "Add voter list")
