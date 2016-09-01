@@ -17,7 +17,7 @@ li.candidate {
   padding: 1rem;
   margin: 1rem;
   text-align: center;
-  min-width: 30%;
+  width: 30%;
   height: 15rem;
   box-sizing: border-box;
   list-style: none;
