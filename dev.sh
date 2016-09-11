@@ -26,5 +26,6 @@ fi
 
 ${MY_DIR}/scripts/start_postgres.sh
 
+export PATH=${MY_DIR}/bin/:$PATH
 echo "Starting processes..."
 ${MY_DIR}/bin/lein cooper

@@ -12,7 +12,7 @@ fi
 
 if [[ -z `( (which javac &> /dev/null) && javac -version 2>&1) | grep "1.8"` ]]; then
   echo "Installing java 1.8..."
-  ((brew --version > /dev/null) && (brew tap caskroom/cask > /dev/null) && (brew install brew-cask > /dev/null) && (brew cask install java))
+  ((brew --version > /dev/null) && (brew tap caskroom/cask > /dev/null) && (brew cask install java))
   ((apt-get --version > /dev/null) && (apt-get install python-software-properties) && (add-apt-repository ppa:webupd8team/java) && (apt-get update) && (apt-get install -y oracle-java8-installer))
 fi
 
