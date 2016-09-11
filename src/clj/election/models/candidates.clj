@@ -8,5 +8,5 @@
   (digest/md5 content))
 
 (defn picture-url [candidate]
-  (str "https://gravatar.com/" (md5-sum (:email candidate)) "?size=medium")
+  (str "https://secure.gravatar.com/avatar/" (md5-sum (:email candidate)))
 )
