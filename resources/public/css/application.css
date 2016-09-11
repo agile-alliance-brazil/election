@@ -26,6 +26,18 @@ h1 {
   height: 5em
 }
 
+.header ul.actions {
+  margin: 0;
+}
+
+.header .session {
+  text-align: right;
+  padding: 1rem;
+}
+
+.header .session a {
+  color: #5798B9;
+}
 
 
 
