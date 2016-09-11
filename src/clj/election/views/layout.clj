@@ -16,12 +16,14 @@
       (map page/include-css (link/bundle-paths request ["application.css"]))]
     [:body {}
       [:div.header
-        [:ul.actions]
-        [:div.session
-          (if (nil? (:user session))
-            (e/link-to (p/login-path) "Login")
-            (e/link-to (p/logout-path) (str "Logout from " (-> session :user :first_name)))
-          )
+        [:div.container
+          [:ul.actions]
+          [:div.session
+            (if (nil? (:user session))
+              (e/link-to (p/login-path) "Login")
+              (e/link-to (p/logout-path) (str "Logout from " (-> session :user :first_name)))
+            )
+          ]
         ]
       ]
       (case type
