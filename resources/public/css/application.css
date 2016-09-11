@@ -3,41 +3,97 @@ body {
   padding: 0;
   font-family: Helvetica;
   font-size: 100%;
+  background-color: #eee;
 }
+
+h1 {
+  margin: 1rem 2rem;
+  color: #555;
+  font-size: 1.7rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.6rem;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Header */
+
+.header {
+  background-color: #fff;
+  height: 5em
+}
+
+.header ul.actions {
+  margin: 0;
+}
+
+.header .session {
+  text-align: right;
+  padding: 1rem;
+}
+
+.header .session a {
+  color: #5798B9;
+}
+
+
+
+/* Candidates */
 ul.candidates {
   margin: 0;
-  padding: 1rem 0;
+  padding: 1rem;
   box-sizing: border-box;
   width: 100%;
-  min-height: 32rem;
   text-align: center;
 }
+
 li.candidate {
-  border: 1px solid black;
+  background-color: #fff;
   padding: 1rem;
   margin: 1rem;
   text-align: center;
-  width: 30%;
+  width: 95%;
   height: 15rem;
   box-sizing: border-box;
   list-style: none;
   float: left;
 }
+
+li.candidate h3 {
+  color: #666;
+}
+
+li.candidate img {
+  border-radius: 100%;
+}
+
+li.candidate p {
+  font-size: 0.8rem;
+  color: #444;
+}
+
 .vote li.candidate {
   cursor: pointer;
 }
+
 li.candidate.selected {
   background-color: lightyellow;
 }
+
 .clear {
   clear: both;
 }
+
 form.vote input.vote {
   display: none;
 }
+
 form.vote input[type=submit] {
   box-sizing: border-box;
-  margin: 0 auto;
+  margin: 1em auto;
   padding: 1rem;
   text-align: center;
   width: 50%;
@@ -48,8 +104,22 @@ form.vote input[type=submit] {
   text-transform: capitalize;
   color: white;
   background-color: green;
+  border-radius: 5px;
 }
+
 form.vote input[type=submit]:disabled {
   color: darkgray;
   background-color: lightgray;
+}
+
+@media (min-width: 768px) {
+  li.candidate {
+    width: 45%;
+  }
+}
+
+@media (min-width: 1024px) {
+  li.candidate {
+    width: 30%;
+  }
 }
