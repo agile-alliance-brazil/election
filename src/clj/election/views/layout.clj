@@ -29,12 +29,12 @@
           ]
         ]
       ]
-      (case type
-        :error [:div.flash.error message]
-        :notice [:div.flash.notice message]
-        [:div.flash]
-      )
       [:div.content
+        (case type
+          :error [:div.flash.error message]
+          :notice [:div.flash.notice message]
+          [:div.flash]
+        )
         [:div.container content]
       ]
       (page/include-js "//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js")

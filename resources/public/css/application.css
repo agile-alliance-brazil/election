@@ -6,8 +6,12 @@ body {
   background-color: #eee;
 }
 
-h1 {
+.content {
   margin: 1rem 2rem;
+}
+
+h1 {
+  margin: 1rem 0;
   color: #555;
   font-size: 1.5rem;
   border-bottom: 1px solid #ddd;
@@ -23,6 +27,11 @@ h1 {
   text-align: left;
   width: 100%;
   padding: 1rem 2rem;
+}
+
+.flash.notice {
+  border-color: darkgreen;
+  background-color: lightgreen;
 }
 
 .flash.error {
@@ -61,11 +70,10 @@ h1 {
   height: 5rem;
 }
 
-
 /* Candidates */
 ul.candidates {
   margin: 0;
-  padding: 1rem;
+  padding: 1rem 0;
   box-sizing: border-box;
   width: 100%;
   text-align: center;
@@ -73,7 +81,7 @@ ul.candidates {
 
 li.candidate {
   background-color: #fff;
-  padding: 1rem;
+  padding: 1rem 0;
   margin: 1rem;
   text-align: center;
   width: 95%;
@@ -85,6 +93,23 @@ li.candidate {
   border: 1px solid #ddd;
 }
 
+.vote li.candidate {
+  cursor: pointer;
+}
+.vote li.candidate:hover {
+  background-color: #FFFFF6;
+}
+.vote li.candidate.selected {
+  background-color: lightyellow;
+}
+.vote li.candidate.selected:hover {
+  background-color: #FFFFF6;
+}
+
+li.candidate h3 {
+  color: #666;
+}
+
 li.candidate img {
   border-radius: 100%;
 }
@@ -92,14 +117,6 @@ li.candidate img {
 li.candidate p {
   font-size: 0.8rem;
   color: #666;
-}
-
-.vote li.candidate {
-  cursor: pointer;
-}
-
-li.candidate.selected {
-  background-color: lightyellow;
 }
 
 .clear {
