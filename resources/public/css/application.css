@@ -9,7 +9,7 @@ body {
 h1 {
   margin: 1rem 2rem;
   color: #555;
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   border-bottom: 1px solid #ddd;
   padding-bottom: 0.6rem;
 }
@@ -19,11 +19,22 @@ h1 {
   margin: 0 auto;
 }
 
+.flash {
+  text-align: left;
+  width: 100%;
+  padding: 1rem 2rem;
+}
+
+.flash.error {
+  background: #d9534f;
+  color: #fff;
+}
+
 /* Header */
 
 .header {
   background-color: #fff;
-  height: 5em
+  height: 6em
 }
 
 .header ul.actions {
@@ -32,13 +43,23 @@ h1 {
 
 .header .session {
   text-align: right;
-  padding: 1rem;
+  float:right;
+  padding: 1rem 2rem;
 }
 
 .header .session a {
   color: #5798B9;
+  margin-right: 3rem;
 }
 
+.logo {
+  padding: .5rem 2rem;
+  float: left;
+}
+.logo img {
+  width: auto;
+  height: 5rem;
+}
 
 
 /* Candidates */
@@ -60,10 +81,8 @@ li.candidate {
   box-sizing: border-box;
   list-style: none;
   float: left;
-}
-
-li.candidate h3 {
-  color: #666;
+  border-radius: 7px;
+  border: 1px solid #ddd;
 }
 
 li.candidate img {
@@ -72,7 +91,7 @@ li.candidate img {
 
 li.candidate p {
   font-size: 0.8rem;
-  color: #444;
+  color: #666;
 }
 
 .vote li.candidate {
@@ -111,6 +130,13 @@ form.vote input[type=submit]:disabled {
   color: darkgray;
   background-color: lightgray;
 }
+
+.election h3  {
+  margin: 1rem 2rem;
+  color: #5798B9;
+}
+
+
 
 @media (min-width: 768px) {
   li.candidate {

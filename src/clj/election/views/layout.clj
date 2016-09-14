@@ -17,6 +17,9 @@
     [:body {}
       [:div.header
         [:div.container
+          [:div.logo
+            [:img{:src "/images/agile-alliance.jpg"}]
+          ]
           [:ul.actions]
           [:div.session
             (if (nil? (:user session))
@@ -31,7 +34,9 @@
         :notice [:div.flash.notice message]
         [:div.flash]
       )
-      [:div.content content]
+      [:div.content
+        [:div.container content]
+      ]
       (page/include-js "//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js")
       (map page/include-js (link/bundle-paths request ["application.js"]))
     ]
