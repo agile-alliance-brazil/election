@@ -59,7 +59,7 @@
         [:h3 "Partial results"]
         [:h3 "Final results"]
       )
-      [:ul
+      [:ul.candidates
         (map
           (fn [candidate] (votes/render-candidate-base candidate (fn [c] [:p "Votes: " (:votecount c)])))
           (sorted-candidates-by-vote election-id)
