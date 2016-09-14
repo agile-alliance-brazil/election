@@ -17,6 +17,9 @@
     [:body {}
       [:div.header
         [:div.container
+          [:div.logo
+            [:img{:src "/images/agile-alliance.jpg"}]
+          ]
           [:ul.actions]
           [:div.session
             (if (nil? (:user session))

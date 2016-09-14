@@ -23,7 +23,7 @@ h1 {
 
 .header {
   background-color: #fff;
-  height: 5em
+  height: 6em
 }
 
 .header ul.actions {
@@ -32,6 +32,7 @@ h1 {
 
 .header .session {
   text-align: right;
+  float:right;
   padding: 1rem 2rem;
 }
 
@@ -40,6 +41,14 @@ h1 {
   margin-right: 3rem;
 }
 
+.logo {
+  padding: .5rem 2rem;
+  float: left;
+}
+.logo img {
+  width: auto;
+  height: 5rem;
+}
 
 
 /* Candidates */
@@ -115,6 +124,8 @@ form.vote input[type=submit]:disabled {
   margin: 1rem 2rem;
   color: #5798B9;
 }
+
+
 
 @media (min-width: 768px) {
   li.candidate {
