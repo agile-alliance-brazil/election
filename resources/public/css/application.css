@@ -19,6 +19,17 @@ h1 {
   margin: 0 auto;
 }
 
+.flash {
+  text-align: left;
+  width: 100%;
+  padding: 1rem 2rem;
+}
+
+.flash.error {
+  background: #d9534f;
+  color: #fff;
+}
+
 /* Header */
 
 .header {
