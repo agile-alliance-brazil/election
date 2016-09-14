@@ -12,6 +12,7 @@
     [election.db.candidates :as candidates]
     [election.models.candidates :as candidate]
     [election.authorization :as auth]
+    [election.i18n.messages :as i18n]
     [ring.util.anti-forgery :refer [anti-forgery-field]]
     [ring.util.response :refer [response]]
     [clj-time.core :as t]
@@ -53,15 +54,15 @@
   (layout/election-layout (assoc request :election election)
     [:div
       (if (auth/can-register-voters? election (:user session))
-        (link-to (paths/new-election-voters-path election-id) "Register voters")
+        (link-to (paths/new-election-voters-path election-id) (i18n/t request :votes/register))
       )
       (if (t/before? (t/now) (c/from-sql-time end-date))
-        [:h3 "Partial results"]
-        [:h3 "Final results"]
+        [:h3 (i18n/t request :votes/partial-results)]
+        [:h3 (i18n/t request :votes/final-results)]
       )
       [:ul.candidates
         (map
-          (fn [candidate] (votes/render-candidate-base candidate (fn [c] [:p "Votes: " (:votecount c)])))
+          (fn [candidate] (votes/render-candidate-base candidate (fn [c] [:p (i18n/t request :votes/count (:votecount c))])))
           (sorted-candidates-by-vote election-id)
         )
       ]
@@ -100,7 +101,7 @@
     (form/form-to {:enctype "multipart/form-data"} [:put (paths/register-election-voters-path election-id)]
       (anti-forgery-field)
       (form/file-upload :voters)
-      (form/submit-button {:disabled false} "Add voter list")
+      (form/submit-button {:disabled false} (i18n/t request :votes/add-voters))
     )
   )
 )

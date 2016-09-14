@@ -11,6 +11,7 @@
     [ring.middleware.json :as json-middleware]
     [ring.middleware.anti-forgery :as anti-forgery]
     [ring.middleware.logger :as logger]
+    [taoensso.tower.ring :as tower-middleware]
     [clansi.core :as clansi]
     [ring.util.response :refer [response redirect]]
     [environ.core :refer [env]]
@@ -20,6 +21,7 @@
     [optimus.strategies :as strategies]
     [election.routes.site-router :as site-router]
     [election.routes.api-router :as api-router]
+    [election.i18n.messages :as i18n]
   )
 )
 
@@ -37,8 +39,21 @@
     (if (in-dev?)
       logging-handler
       (fn [request]
-        (let [response (clansi/without-ansi (logging-handler request))]
-          response)))))
+        (clansi/without-ansi (logging-handler request))
+      )
+    )
+  )
+)
+
+(defn wrap-locale [handler]
+  (fn [request]
+    (let [response (handler request)]
+      (-> response
+        (assoc-in [:session :locale] (:locale request))
+      )
+    )
+  )
+)
 
 (def wrapped-handler
   (->
@@ -49,6 +64,8 @@
       (-> site-router/routes
           (wrap-routes hiccup-middleware/wrap-base-url)
           (wrap-routes anti-forgery/wrap-anti-forgery)
+          (wrap-locale)
+          (tower-middleware/wrap-tower i18n/my-tconfig {:fallback-locale i18n/preferred-language :locale-selector i18n/select-locale})
           (wrap-defaults (assoc-in site-defaults [:security :anti-forgery] false))))
     (wrap-defaults api-defaults)
     (optimus/wrap get-assets

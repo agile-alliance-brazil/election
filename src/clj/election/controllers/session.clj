@@ -7,6 +7,7 @@
     [ring.util.response :refer [redirect]]
     [election.routes.paths :as paths]
     [election.java-bridge :as bridge]
+    [election.i18n.messages :as i18n]
   )
 )
 
@@ -115,10 +116,10 @@
   )
 )
 
-(defn destroy-session [_]
+(defn destroy-session [request]
   (->
     (redirect (paths/home-path))
-    (assoc :flash {:type :notice :message "Logged out successfully!"})
+    (assoc :flash {:type :notice :message (i18n/t request :session/destroyed)})
     (assoc :session nil)
   )
 )
@@ -128,11 +129,11 @@
     (if (nil? response)
       (->
         (destroy-session request)
-        (assoc :flash {:type :error :message "Invalid authentication. Please try again"})
+        (assoc :flash {:type :error :message (i18n/t request :session/invalid)})
       )
       (->
         (redirect (paths/home-path))
-        (assoc :flash {:type :notice :message "Logged in successfully!"})
+        (assoc :flash {:type :notice :message (i18n/t request :session/created)})
         (assoc-in [:session :user]
           (merge
             (get-user-info (:access_token response) (:refresh_token response))

@@ -34,7 +34,7 @@
       [optimus "0.19.0"]
       [digest "1.4.5"]
       [com.draines/postal "2.0.1"]
-      [com.taoensso/tower "3.1.0-beta4"]
+      [com.taoensso/tower "3.1.0-beta5"]
       [slingshot "0.12.2"]
       [clojurewerkz/quartzite "2.0.0" :exclusions [c3p0]]]
     :plugins [[lein-environ "1.0.2"] [lein-pprint "1.1.2"]]
@@ -78,5 +78,4 @@
         :dependencies [[org.clojure/tools.nrepl "0.2.12"]]
         :resource-paths ["resources"]}}
     :aliases {"migrate"  ["run" "-m" "election.db.migration/migrate"]
-              "rollback" ["run" "-m" "election.db.migration/rollback"]
-              "notify-voters" ["run" "-m" "election.controllers.tokens/notify-voters"]}))
+              "rollback" ["run" "-m" "election.db.migration/rollback"]}))

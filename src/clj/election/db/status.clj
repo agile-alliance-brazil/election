@@ -4,6 +4,7 @@
     [clj-http.client :as client]
     [clojure.java.jdbc :as j]
     [election.db.config :as db-config]
+    [election.i18n.messages :as i18n]
     [honeysql.core :as sql]
   )
 )
@@ -19,14 +20,11 @@
   )
 )
 
-(defn report []
+(defn report [request]
   (try
-    (str "DB connection is up. Last migration: " (or (last-migration) "none."))
+    (i18n/t request :status/db-connection/successful (or (last-migration) (i18n/t request :none)))
     (catch Exception e
-      (str "DB connection failed. Connection/query to "
-        (hide-password db-config/postgres-jdbc-config) " failed with: "
-        e (.getMessage e)
-      )
+      (i18n/t request :status/db-connection/failed (hide-password db-config/postgres-jdbc-config) e (.getMessage e))
     )
   )
 )

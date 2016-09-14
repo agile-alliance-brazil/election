@@ -6,6 +6,7 @@
     [election.db.tokens :as tokens]
     [election.db.elections :as elections]
     [election.routes.paths :as paths]
+    [election.i18n.messages :as i18n]
     [ring.util.response :refer [redirect]]
     [clj-time.core :as t]
     [clj-time.coerce :as c]
@@ -23,13 +24,15 @@
   )
 )
 
-(defn- build-flash [election-id token]
-  (let [message (if (in-election-phase? election-id) "Token already used" "Not currently in voting period")]
-    {
-      :type :error
-      :message message
-    }
-  )
+(defn- build-flash [request election-id token]
+  {
+    :type :error
+    :message
+    (if (in-election-phase? election-id)
+      (i18n/t request :votes/used-token)
+      (i18n/t request :votes/not-accepting-votes)
+    )
+  }
 )
 
 (defn new-vote [{{election-id :election-id token :token} :params :as request}]
@@ -41,19 +44,19 @@
       )
       (->
         (redirect (paths/election-path (:id election)))
-        (assoc :flash (build-flash (:id election) token))
+        (assoc :flash (build-flash request (:id election) token))
       )
     )
   )
 )
 
-(defn- register-vote [election vote token]
+(defn- register-vote [request election vote token]
   (if (valid-token? election token)
     (and
       (db/register-vote election vote)
       (tokens/mark-as-used election token)
-      {:type :notice :message "Vote recorded! Thank you."})
-    {:type :error :message "Token already used"}
+      {:type :notice :message (i18n/t request :votes/recoreded)})
+    {:type :error :message (i18n/t request :votes/used-token)}
   )
 )
 
@@ -74,13 +77,13 @@
         (redirect (paths/election-path election-id))
         (assoc
           :flash
-          (register-vote election-id (map read-string votes) token)
+          (register-vote request election-id (map read-string votes) token)
         )
       )
       (new-vote
         (->
           request
-          (assoc :flash {:type :error :message "Invalid vote. Please ensure you selected the right amount of candidates."})
+          (assoc :flash {:type :error :message (i18n/t request :votes/invalid)})
         )
       )
     )

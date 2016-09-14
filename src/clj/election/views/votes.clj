@@ -5,6 +5,7 @@
     [election.routes.paths :as paths]
     [election.db.elections :as elections]
     [election.models.candidates :as candidates]
+    [election.i18n.messages :as i18n]
     [hiccup.form :refer (form-to text-field submit-button)]
     [ring.util.anti-forgery :refer [anti-forgery-field]]
     [hiccup.form :as form]
@@ -33,12 +34,12 @@
   (log/info "Rendering place vote view with " election " and request " params)
   (layout/election-layout (assoc request :election election)
     [:div
-      [:p "Please select " (elections/candidates-to-elect-for election-id) " candidates towards which you will cast your vote and press the 'Place Vote' button."]
+      [:p (i18n/t request :votes/instructions (elections/candidates-to-elect-for election-id))]
       (form-to {:class "vote"} [:post (paths/place-vote-path election-id token)]
         (anti-forgery-field)
         [:ul.candidates
           (list* (map render-candidate (shuffle candidates)))
-          (submit-button {:class "clear" :disabled "disabled"} "Place vote")
+          (submit-button {:class "clear" :disabled "disabled"} (i18n/t request :votes/place))
         ]
         (list* (map render-position (elections/positions-to-vote-on election-id)))
       )

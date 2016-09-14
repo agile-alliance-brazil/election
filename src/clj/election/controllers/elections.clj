@@ -7,7 +7,7 @@
     [election.db.voters :as voters]
     [election.authorization :as auth]
     [election.routes.paths :as paths]
-    [election.controllers.tokens :as tokens]
+    [election.i18n.messages :as i18n]
     [ring.util.response :as response]
   )
 )
@@ -28,7 +28,7 @@
 (defn show-json  [{{election-id :election-id} :params :as request}]
   (let [election (db/election (read-string election-id))]
     (if (nil? (:id election))
-      (response/not-found {:message (str "No election with ID " election-id " found.")})
+      (response/not-found {:message (i18n/t request :elections/not-found election-id)})
       (view/show-json-view request election)
     )
   )
@@ -40,7 +40,7 @@
       (view/new-voters-view request election)
       (->
         (response/redirect (paths/election-path election-id))
-        (assoc :flash {:type :error :message "Unauthorized access"})
+        (assoc :flash {:type :error :message (i18n/t request :forbidden)})
       )
     )
   )
@@ -62,11 +62,11 @@
     (if (auth/can-register-voters? election (:user session))
       (let [added-voters-count (voters/register-voters (:id election) (voters-from voters-file))]
         (if added-voters-count
-          (assoc response :flash {:type :notice :message (str added-voters-count " new voters registered.")})
-          (assoc response :flash {:type :error :message "Voter registration failed"})
+          (assoc response :flash {:type :notice :message (i18n/t request :elections/new-voters-registered added-voters-count)})
+          (assoc response :flash {:type :error :message (i18n/t request :elections/voter-registration-failed)})
         )
       )
-      (assoc response :flash {:type :error :message "Unauthorized access"})
+      (assoc response :flash {:type :error :message (i18n/t request :forbidden)})
     )
   )
 )

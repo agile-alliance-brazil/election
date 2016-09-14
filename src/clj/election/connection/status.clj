@@ -1,14 +1,19 @@
 (ns election.connection.status
   (:require
-    [clj-http.client :as client]))
+    [clj-http.client :as client]
+    [election.i18n.messages :as i18n]
+  )
+)
 
 (def default-request-url
-  "https://www.google.com")
+  "https://www.google.com"
+)
 
 (def default-timeout 1000)
 
 (defn- default-request [url timeout]
-  {:method :get :url url :socket-timeout timeout :conn-timeout timeout :throw-exceptions false})
+  {:method :get :url url :socket-timeout timeout :conn-timeout timeout :throw-exceptions false}
+)
 
 (defn- timed [op & args]
   (let [writer (java.io.StringWriter.)]
@@ -18,10 +23,18 @@
       {
         :time
         (Integer. (re-find #"\d+" (.toString (.getBuffer writer))))
-      })))
+      }
+    )
+  )
+)
 
-(defn report [url]
+(defn report [request url]
   (try
     (let [response (timed client/request (default-request url default-timeout))]
-      (str "Connection to " url " has response code " (:status response) " with response time " (:time response) "ms."))
-    (catch Exception e (str "HTTP request failed: " (.getMessage e)))))
+      (i18n/t request :status/connection/successful url (:status response) (:time response))
+    )
+    (catch Exception e
+      (i18n/t request :status/connection/successful (.getMessage e))
+    )
+  )
+)

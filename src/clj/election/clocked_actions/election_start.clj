@@ -1,5 +1,6 @@
 (ns election.clocked-actions.election-start
   (:require
+    [clojure.tools.logging :as log]
     [election.java-bridge :as bridge]
     [postal.core :as postal]
     [environ.core :refer [env]]
@@ -7,6 +8,7 @@
     [election.db.elections :as elections]
     [election.db.tokens :as tokens]
     [election.db.voters :as voters]
+    [election.i18n.messages :as i18n]
   )
 )
 
@@ -30,7 +32,7 @@
     {
       :from (:email-sender env)
       :to email
-      :subject (str "You're invited to vote in " name "!")
+      :subject (i18n/t {:locale i18n/preferred-language} :mailer/token/subject name)
       :body (mailer/election-token-email-body token)
     }
   )
@@ -45,7 +47,7 @@
 
 (defn notify-voters [election]
   (let [voters (voters/voters-for (:id election))]
-    (println "Notifying voters for election " (:id election) " to a total of " (count voters))
+    (log/info "Notifying voters for election " (:id election) " to a total of " (count voters))
     (doall (register-tokens election (generate-tokens-for voters)))
   )
 )

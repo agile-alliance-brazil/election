@@ -25,10 +25,10 @@
 
 (defn register-vote [election-id candidate-ids]
   (let [command 
-    [
+    [ ; TODO: Make it variable for any number of votes
       "UPDATE candidates SET votecount = votecount + 1 WHERE electionid = ? AND id IN (?, ?, ?)"
       election-id
-      (first candidate-ids) ; TODO: Make it variable for any number of votes
+      (first candidate-ids)
       (second candidate-ids)
       (last candidate-ids)
     ]]

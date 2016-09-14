@@ -5,12 +5,13 @@
     [optimus.link :as link]
     [election.db.elections :as db]
     [election.routes.paths :as p]
+    [election.i18n.messages :as i18n]
   )
 )
 
-(defn layout [{{type :type message :message} :flash session :session :as request} content]
+(defn layout [{{type :type message :message} :flash locale :locale session :session :as request} content]
   (page/html5
-    {:lang "en"}
+    {:lang (name (or locale i18n/preferred-language))}
     [:head
       [:meta{:http-equiv "Content-Type" :content "text/html; charset=UTF-8" :charset "utf-8"}]
       (map page/include-css (link/bundle-paths request ["application.css"]))]
@@ -23,8 +24,8 @@
           [:ul.actions]
           [:div.session
             (if (nil? (:user session))
-              (e/link-to (p/login-path) "Login")
-              (e/link-to (p/logout-path) (str "Logout from " (-> session :user :first_name)))
+              (e/link-to (p/login-path) (i18n/t request :session/new))
+              (e/link-to (p/logout-path) (i18n/t request :session/destroy (-> session :user :first_name)))
             )
           ]
         ]
@@ -33,7 +34,7 @@
         (case type
           :error [:div.flash.error message]
           :notice [:div.flash.notice message]
-          [:div.flash]
+          [:div]
         )
         [:div.container content]
       ]
