@@ -27,7 +27,7 @@
       [clj-http "3.2.0"]
       [hiccup "1.0.5"]
       [ragtime "0.6.3"]
-      [org.postgresql/postgresql "9.4.1209"]
+      [org.postgresql/postgresql "9.4.1210"]
       [com.mchange/c3p0 "0.9.5.2"]
       [honeysql "0.8.0"]
       [clj-time "0.12.0"]
