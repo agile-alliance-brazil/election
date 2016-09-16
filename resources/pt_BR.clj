@@ -31,24 +31,28 @@
   {
     :token
     {
-      :subject "You're invited to vote in %s!"
+      :subject "Convite para votar na eleição de membros ao board de diretores da %s"
       :text!
       (str
-        "Hello %s,\n\n"
-        "We're pleased to invite you to vote on %s.\n\n"
-        "To cast your vote, simply access the following URL. Note that you can only vote once and cannot edit your vote after placing it.\n\n"
+        "Olá %s,\n\n"
+        "Como participante do Agile Brazil 2014 e 2015, você está habilitado a votar para a eleição de "
+        "três membros ao board de diretores da Agile Alliance Brazil para o período de 2017-2019.\n\n"
+        "Para votar, acesse o link abaixo. Você poderá votar apenas uma vez e não poderá editar seu voto após o envio.\n\n"
+        "Você deve votar em três candidatos.\n\n"
         "%s\n\n"
-        "Sincerely,\n"
-        "Agile Alliance Brazil board"
+        "Agradecemos a sua participação,\n"
+        "Agile Alliance Brazil"
       )
       :html*
       (str
-        "Hello %s,\n\n"
-        "We're pleased to invite you to vote on %s.\n\n"
-        "To cast your vote, simply access the following URL. Note that you can only vote once and cannot edit your vote after placing it.\n\n"
+        "Olá %s,\n\n"
+        "Como participante do Agile Brazil 2014 e 2015, você está habilitado a votar para a eleição de "
+        "três membros ao board de diretores da Agile Alliance Brazil para o período de 2017-2019.\n\n"
+        "Para votar, acesse o link abaixo. Você poderá votar apenas uma vez e não poderá editar seu voto após o envio.\n\n"
+        "Você deve votar em três candidatos.\n\n"
         "[%s](%s)\n\n"
-        "Sincerely,\n"
-        "Agile Alliance Brazil board"
+        "Agradecemos a sua participação,\n"
+        "Agile Alliance Brazil"
       )
     }
   }

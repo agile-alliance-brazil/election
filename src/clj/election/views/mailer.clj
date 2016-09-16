@@ -12,7 +12,6 @@
     {:locale i18n/preferred-language}
     :mailer/token/text
     (:name token)
-    (:name (:election token))
     (paths/url-for (paths/place-vote-path (:id (:election token)) (:token token)))
   )
 )
@@ -22,7 +21,6 @@
     {:locale i18n/preferred-language}
     :mailer/token/html
     (:name token)
-    (:name (:election token))
     (paths/url-for (paths/place-vote-path (:id (:election token)) (:token token)))
     (paths/url-for (paths/place-vote-path (:id (:election token)) (:token token)))
   )
@@ -39,4 +37,5 @@
       :type "text/html"
       :content (html-token-email token)
     }
-  ])
+  ]
+)

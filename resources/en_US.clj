@@ -35,20 +35,24 @@
       :text!
       (str
         "Hello %s,\n\n"
-        "We're pleased to invite you to vote on %s.\n\n"
-        "To cast your vote, simply access the following URL. Note that you can only vote once and cannot edit your vote after placing it.\n\n"
+        "As an attendee of Agiel Brazil 2014 and/or 2015, you are invited to vote in the election of "
+        "three board members for Agile Alliance Brazil for the 2017-2019 term.\n\n"
+        "To vote, access the link below. You will be able to vote only once and you cannot edit your vote after casting it.\n\n"
+        "You have to vote in three candidates.\n\n"
         "%s\n\n"
-        "Sincerely,\n"
-        "Agile Alliance Brazil board"
+        "Thank you for your participation,\n"
+        "Agile Alliance Brazil"
       )
       :html*
       (str
         "Hello %s,\n\n"
-        "We're pleased to invite you to vote on %s.\n\n"
-        "To cast your vote, simply access the following URL. Note that you can only vote once and cannot edit your vote after placing it.\n\n"
+        "As an attendee of Agiel Brazil 2014 and/or 2015, you are invited to vote in the election of "
+        "three board members for Agile Alliance Brazil for the 2017-2019 term.\n\n"
+        "To vote, access the link below. You will be able to vote only once and you cannot edit your vote after casting it.\n\n"
+        "You have to vote in three candidates.\n\n"
         "[%s](%s)\n\n"
-        "Sincerely,\n"
-        "Agile Alliance Brazil board"
+        "Thank you for your participation,\n"
+        "Agile Alliance Brazil"
       )
     }
   }
