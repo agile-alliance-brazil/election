@@ -72,4 +72,7 @@
   }
   :forbidden "Acesso negado"
   :none "nenhum(a)"
+  :pt-BR "Português do Brasil"
+  :en-US "Inglês Americano"
+  :cpf "Cadastro de Pessoa Física"
 }

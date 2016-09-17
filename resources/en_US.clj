@@ -72,4 +72,7 @@
   }
   :forbidden "Unauthorized access"
   :none "none"
+  :pt-BR "Brazilian Portuguese"
+  :en-US "English (U.S.)"
+  :ssn "Social Security Number"
 }

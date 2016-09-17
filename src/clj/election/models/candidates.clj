@@ -4,9 +4,9 @@
   )
 )
 
-(defn- md5-sum [content]
-  (digest/md5 content))
-
-(defn picture-url [candidate]
-  (str "https://secure.gravatar.com/avatar/" (md5-sum (:email candidate)))
+(defn picture-url [{email :email}]
+  (if (nil? email)
+    nil
+    (str "https://secure.gravatar.com/avatar/" (digest/md5 email))
+  )
 )

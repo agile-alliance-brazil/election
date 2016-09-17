@@ -4,32 +4,54 @@
   )
 )
 
+(defn path-for [template {:as params}]
+  (let [p
+    (reduce
+      (fn [route pair]
+        (let [pattern (str (first pair) "(?:\\{[^\\}]+\\})?")]
+          (clojure.string/replace route (re-pattern pattern) (str (last pair)))
+        )
+      )
+      template
+      params
+    )
+    missing-keys (re-seq #":[^/:{]+" p)
+    ]
+    (if (empty? missing-keys)
+      p
+      (throw
+        (IllegalArgumentException. (str "Missing keys: " (clojure.string/join ", " missing-keys)))
+      )
+    )
+  )
+)
+
 (def elections-matcher "/")
-(defn elections-path [] elections-matcher)
+(defn elections-path [] (path-for elections-matcher {}))
 
 (def election-matcher "/:election-id{[0-9]+}")
-(defn election-path [election-id] (str "/" election-id))
+(defn election-path [election-id] (path-for election-matcher {:election-id election-id}))
 
 (def place-vote-matcher "/:election-id{[0-9]+}/:token")
-(defn place-vote-path [election-id token] (str "/" election-id "/" token))
+(defn place-vote-path [election-id token] (path-for place-vote-matcher {:election-id election-id :token token}))
 
 (def status-matcher "/status")
-(defn status-path [] status-matcher)
+(defn status-path [] (path-for status-matcher {}))
 
 (def login-matcher "/login")
-(defn login-path [] login-matcher)
+(defn login-path [] (path-for login-matcher {}))
 
 (def oauth-callback-matcher "/auth/aab-identity/callback")
-(defn oauth-callback-path [] oauth-callback-matcher)
+(defn oauth-callback-path [] (path-for oauth-callback-matcher {}))
 
 (def logout-matcher "/logout")
-(defn logout-path [] logout-matcher)
+(defn logout-path [] (path-for logout-matcher {}))
 
 (def new-election-voters-matcher "/:election-id{[0-9]+}/voters/new")
-(defn new-election-voters-path [election-id] (str "/" election-id "/voters/new"))
+(defn new-election-voters-path [election-id] (path-for new-election-voters-matcher {:election-id election-id}))
 
 (def register-election-voters-matcher "/:election-id{[0-9]+}/voters")
-(defn register-election-voters-path [election-id] (str "/" election-id "/voters"))
+(defn register-election-voters-path [election-id] (path-for register-election-voters-matcher {:election-id election-id}))
 
 (defn url-for [p]
   (str (:host env) p)
