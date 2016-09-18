@@ -45,11 +45,15 @@
   )
 )
 
-(defn wrap-locale [handler]
-  (fn [request]
+(defn wrap-locale-in-session [handler]
+  (fn [{locale :locale {session-locale :locale :as session} :session :as request}]
     (let [response (handler request)]
-      (-> response
-        (assoc-in [:session :locale] (:locale request))
+      (if (or (nil? locale) (= session-locale locale))
+        response
+        (if (not (contains? response :session))
+          (assoc response :session (assoc session :locale locale))
+          (assoc-in response [:session :locale] locale)
+        )
       )
     )
   )
@@ -60,18 +64,23 @@
     (routes
       (-> api-router/routes
         (wrap-routes json-middleware/wrap-json-body)
-        (wrap-routes json-middleware/wrap-json-response))
+        (wrap-routes json-middleware/wrap-json-response)
+      )
       (-> site-router/routes
           (wrap-routes hiccup-middleware/wrap-base-url)
           (wrap-routes anti-forgery/wrap-anti-forgery)
-          (wrap-locale)
+          (wrap-locale-in-session)
           (tower-middleware/wrap-tower i18n/my-tconfig {:fallback-locale i18n/preferred-language :locale-selector i18n/select-locale})
-          (wrap-defaults (assoc-in site-defaults [:security :anti-forgery] false))))
+          (wrap-defaults (assoc-in site-defaults [:security :anti-forgery] false))
+      )
+    )
     (wrap-defaults api-defaults)
     (optimus/wrap get-assets
       (if (in-dev?) optimizations/none optimizations/all)
       (if (in-dev?) strategies/serve-live-assets strategies/serve-frozen-assets))
-    (wrap-with-logger)))
+    (wrap-with-logger)
+  )
+)
 
 (def handler
   (if (in-dev?)

@@ -1,6 +1,7 @@
 (ns election.controllers.session
   (:use [slingshot.slingshot :only [try+]])
   (:require
+    [clojure.tools.logging :as log]
     [environ.core :refer [env]]
     [clj-http.util :as http-util]
     [clj-http.client :as http]
@@ -107,25 +108,25 @@
   )
 )
 
-(defn new-session [_]
+(defn new-session [{session :session}]
   (let [csrf (bridge/random-uuid)]
     (->
       (redirect (authorize-uri oauth2-params csrf))
-      (assoc-in [:session :state] csrf)
+      (assoc :session (assoc session :state csrf))
     )
   )
 )
 
-(defn destroy-session [request]
+(defn destroy-session [{locale :locale :as request}]
   (->
-    (redirect (paths/home-path))
+    (redirect (str (paths/home-path) "?locale=" (name locale)))
     (assoc :flash {:type :notice :message (i18n/t request :session/destroyed)})
     (assoc :session nil)
   )
 )
 
-(defn login [{{code :code state :state :as params} :params session :session :as request}]
-  (let [response (get-authentication-response (:state session) params)]
+(defn login [{{code :code state :state :as params} :params {state :state :as session} :session :as request}]
+  (let [response (get-authentication-response state params)]
     (if (nil? response)
       (->
         (destroy-session request)
@@ -134,13 +135,16 @@
       (->
         (redirect (paths/home-path))
         (assoc :flash {:type :notice :message (i18n/t request :session/created)})
-        (assoc-in [:session :user]
-          (merge
-            (get-user-info (:access_token response) (:refresh_token response))
-            {
-              :access-token (:access_token response)
-              :refresh-token (:refresh_token response)
-            }
+        (assoc
+          :session
+          (assoc session :user
+            (merge
+              (get-user-info (:access_token response) (:refresh_token response))
+              {
+                :access-token (:access_token response)
+                :refresh-token (:refresh_token response)
+              }
+            )
           )
         )
       )
