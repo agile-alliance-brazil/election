@@ -75,4 +75,5 @@
   :pt-BR "Português do Brasil"
   :en-US "Inglês Americano"
   :cpf "Cadastro de Pessoa Física"
+  :agile-alliance-logo "Logo da Agile Alliance"
 }

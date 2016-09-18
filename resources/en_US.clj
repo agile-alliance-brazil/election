@@ -75,4 +75,5 @@
   :pt-BR "Brazilian Portuguese"
   :en-US "English (U.S.)"
   :ssn "Social Security Number"
+  :agile-alliance-logo "Agile Alliance logo"
 }

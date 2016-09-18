@@ -6,10 +6,11 @@
     [election.db.elections :as db]
     [election.routes.paths :as p]
     [election.i18n.messages :as i18n]
+    [election.routes.paths :as paths]
   )
 )
 
-(defn layout [{{type :type message :message} :flash locale :locale session :session :as request} content]
+(defn layout [{{type :type message :message} :flash locale :locale {user :user} :session :as request} content]
   (page/html5
     {:lang (name (or locale i18n/preferred-language))}
     [:head
@@ -19,13 +20,13 @@
       [:div.header
         [:div.container
           [:div.logo
-            [:img{:src "/images/agile-alliance.jpg"}]
+            (e/link-to (paths/path-for paths/elections-matcher) (e/image "/images/agile-alliance.jpg" (i18n/t request :agile-alliance-logo)))
           ]
           [:ul.actions]
           [:div.session
-            (if (nil? (:user session))
+            (if (nil? user)
               (e/link-to (p/login-path) (i18n/t request :session/new))
-              (e/link-to (p/logout-path) (i18n/t request :session/destroy (-> session :user :first_name)))
+              (e/link-to (p/logout-path) (i18n/t request :session/destroy (:first_name user)))
             )
           ]
         ]
