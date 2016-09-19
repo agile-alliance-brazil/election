@@ -4,23 +4,28 @@
   )
 )
 
-(defn path-for [template {:as params}]
-  (let [p
-    (reduce
-      (fn [route pair]
-        (let [pattern (str (first pair) "(?:\\{[^\\}]+\\})?")]
-          (clojure.string/replace route (re-pattern pattern) (str (last pair)))
+(defn path-for
+  ([template]
+    (path-for template {})
+  )
+  ([template {:as params}]
+    (let [p
+      (reduce
+        (fn [route pair]
+          (let [pattern (str (first pair) "(?:\\{[^\\}]+\\})?")]
+            (clojure.string/replace route (re-pattern pattern) (str (last pair)))
+          )
         )
+        template
+        params
       )
-      template
-      params
-    )
-    missing-keys (re-seq #":[^/:{]+" p)
-    ]
-    (if (empty? missing-keys)
-      p
-      (throw
-        (IllegalArgumentException. (str "Missing keys: " (clojure.string/join ", " missing-keys)))
+      missing-keys (re-seq #":[^/:{]+" p)
+      ]
+      (if (empty? missing-keys)
+        p
+        (throw
+          (IllegalArgumentException. (str "Missing keys: " (clojure.string/join ", " missing-keys)))
+        )
       )
     )
   )

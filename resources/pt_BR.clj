@@ -2,7 +2,7 @@
   :elections
   {
     :not-found "Eleição com ID %d não foi encontrada."
-    :new-voters-registered "%d novos eleitores inscritos."
+    :new-voters-registered "%d novo(s) eleitore(s) inscrito(s)."
     :voter-registration-failed "Inscrição de eleitores falhou"
   }
   :votes
@@ -32,28 +32,34 @@
     :token
     {
       :subject "Convite para votar na eleição de membros ao board de diretores da %s"
-      :text!
-      (str
-        "Olá %s,\n\n"
-        "Como participante do Agile Brazil 2014 e 2015, você está habilitado a votar para a eleição de "
-        "três membros ao board de diretores da Agile Alliance Brazil para o período de 2017-2019.\n\n"
-        "Para votar, acesse o link abaixo. Você poderá votar apenas uma vez e não poderá editar seu voto após o envio.\n\n"
-        "Você deve votar em três candidatos.\n\n"
-        "%s\n\n"
-        "Agradecemos a sua participação,\n"
-        "Agile Alliance Brazil"
-      )
-      :html*
-      (str
-        "Olá %s,\n\n"
-        "Como participante do Agile Brazil 2014 e 2015, você está habilitado a votar para a eleição de "
-        "três membros ao board de diretores da Agile Alliance Brazil para o período de 2017-2019.\n\n"
-        "Para votar, acesse o link abaixo. Você poderá votar apenas uma vez e não poderá editar seu voto após o envio.\n\n"
-        "Você deve votar em três candidatos.\n\n"
-        "[%s](%s)\n\n"
-        "Agradecemos a sua participação,\n"
-        "Agile Alliance Brazil"
-      )
+      :text! "Olá %s,
+
+Como participante do Agile Brazil 2014 e 2015, você está habilitado a votar para a eleição de três membros
+ao board de diretores da Agile Alliance Brazil para o período de 2017-2019.
+
+Para votar, acesse o link abaixo. Você poderá votar apenas uma vez e não poderá editar seu voto após o envio.
+Você deve votar em três candidatos e tem até %s para submeter seu voto.
+
+%s
+
+Agradecemos a sua participação,
+Agile Alliance Brazil"
+      :html* "Olá %s,
+
+
+Como participante do Agile Brazil 2014 e 2015, você está habilitado a votar para a eleição de
+três membros ao board de diretores da Agile Alliance Brazil para o período de 2017-2019.
+
+
+Para votar, acesse o link abaixo. Você poderá votar apenas uma vez e não poderá editar seu voto após o envio.
+Você deve votar em três candidatos e tem até %s para submeter seu voto.
+
+
+[%s](%s)
+
+
+Agradecemos a sua participação,
+Agile Alliance Brazil"
     }
   }
   :status

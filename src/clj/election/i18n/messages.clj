@@ -9,6 +9,8 @@
 
 (def preferred-language (first supported-languages))
 
+(def preferred-timezone "Brazil/East")
+
 (def my-tconfig
   {
     :dictionary

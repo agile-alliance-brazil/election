@@ -25,7 +25,8 @@
         (action last-run)
         (catch Exception e
           (log/error "Error running " action-name ": " (.getMessage e))
-          {(.getMessage e) (.getStackTrace e)}
+          (.printStackTrace e)
+          {(.getMessage e) (map str (.getStackTrace e))}
         )
       )
     }
@@ -44,6 +45,7 @@
 
 (defn -main
   [& m]
+  (println "Starting clock process with interval " clock-interval "ms...")
   (while true
     (run (:id (db/create-new-run)) (:enddate (db/last-clock-info)))
     (Thread/sleep clock-interval)
