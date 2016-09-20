@@ -150,11 +150,21 @@ form.vote input[type=submit]:disabled {
 }
 
 .election h3  {
-  margin: 1rem 2rem;
+  margin: 1rem;
   color: #5798B9;
 }
 
+h4.votecount {
+  font-size: 2rem;
+  margin: 0.5rem 0;
+}
 
+.votecount span {
+  font-size: 1rem;
+  font-weight: lighter;
+  display: block;
+  text-align: center;
+}
 
 @media (min-width: 768px) {
   li.candidate {

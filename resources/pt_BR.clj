@@ -10,7 +10,7 @@
     :register "Inscrever eleitores"
     :partial-results "Resultados parciais"
     :final-results "Resultados finais"
-    :count "Votos: %d"
+    :count "Votos"
     :add-voters "Adicionar lista de eleitores"
     :instructions "Por favor, selecione %d candidatos a favor dos quais seu voto será contabilizado e pressione o botão 'Votar'."
     :place "Votar"

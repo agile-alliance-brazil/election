@@ -62,7 +62,11 @@
       )
       [:ul.candidates
         (map
-          (fn [candidate] (votes/render-candidate-base candidate (fn [c] [:p (i18n/t request :votes/count (:votecount c))])))
+          (fn [candidate] (votes/render-candidate-base candidate (fn [c]
+            [:h4.votecount (:votecount c)
+              [:span (i18n/t request :votes/count) ]
+            ]
+          )))
           (sorted-candidates-by-vote election-id)
         )
       ]
