@@ -11,7 +11,7 @@ body {
 }
 
 h1 {
-  margin: 1rem 0;
+  margin: 1rem;
   color: #555;
   font-size: 1.5rem;
   border-bottom: 1px solid #ddd;
@@ -86,7 +86,7 @@ li.candidate {
   margin: 1rem;
   text-align: center;
   width: 95%;
-  height: 15rem;
+  height: 16rem;
   box-sizing: border-box;
   list-style: none;
   float: left;
@@ -150,11 +150,27 @@ form.vote input[type=submit]:disabled {
 }
 
 .election h3  {
-  margin: 1rem 2rem;
-  color: #5798B9;
+  margin: 1rem;
+  color: #999;
 }
 
+h4.votecount {
+  font-size: 2rem;
+  margin: 0.5rem 0;
+  color: #5798B9
+}
 
+.votecount span {
+  font-size: 1rem;
+  font-weight: lighter;
+  display: block;
+  text-align: center;
+}
+
+p.instructions {
+  color: #666;
+  margin: 0 1rem;
+}
 
 @media (min-width: 768px) {
   li.candidate {

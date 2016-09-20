@@ -10,7 +10,7 @@
     :register "Register voters"
     :partial-results "Partial results"
     :final-results "Final results"
-    :count "Votes: %d"
+    :count "Votes"
     :add-voters "Add voter list"
     :instructions "Please select %d candidates towards which you will cast your vote and press the 'Place Vote' button."
     :place "Place Vote"

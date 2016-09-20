@@ -34,7 +34,7 @@
   (log/info "Rendering place vote view with " election " and request " params)
   (layout/election-layout (assoc request :election election)
     [:div
-      [:p (i18n/t request :votes/instructions (elections/candidates-to-elect-for election-id))]
+      [:p.instructions (i18n/t request :votes/instructions (elections/candidates-to-elect-for election-id))]
       (form-to {:class "vote"} [:post (paths/place-vote-path election-id token)]
         (anti-forgery-field)
         [:ul.candidates
