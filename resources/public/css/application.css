@@ -151,12 +151,13 @@ form.vote input[type=submit]:disabled {
 
 .election h3  {
   margin: 1rem;
-  color: #5798B9;
+  color: #999;
 }
 
 h4.votecount {
   font-size: 2rem;
   margin: 0.5rem 0;
+  color: #5798B9
 }
 
 .votecount span {
