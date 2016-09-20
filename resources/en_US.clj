@@ -4,6 +4,15 @@
     :not-found "No election with ID %d found."
     :new-voters-registered "%d new voter(s) registered."
     :voter-registration-failed "Voter registration failed"
+    :create "Create election"
+    :name "Election name"
+    :description "Description"
+    :startdate "Start date for election to start"
+    :enddate "Deadline for votes to be casted"
+    :candidates-to-elect "Number of candidates to elect"
+    :candidates-to-vote-on "Number of candidates to select on a vote"
+    :election-created "Election created successfully!"
+    :create-election-failed "Election creation failed. Try again"
   }
   :votes
   {

@@ -2,8 +2,17 @@
   :elections
   {
     :not-found "Eleição com ID %d não foi encontrada."
-    :new-voters-registered "%d novo(s) eleitore(s) inscrito(s)."
+    :new-voters-registered "%d novo(s) eleitor(es) inscrito(s)."
     :voter-registration-failed "Inscrição de eleitores falhou"
+    :create "Criar eleição"
+    :name "Nome da eleição"
+    :description "Descrição"
+    :startdate "Data de início da votação"
+    :enddate "Data de fim da votação"
+    :candidates-to-elect "Número de candidatos a serem eleitos"
+    :candidates-to-vote-on "Número de candidatos a selecionar em um voto"
+    :election-created "Eleição criada com sucesso!"
+    :create-election-failed "Criação da eleição falhou. Tente novamente"
   }
   :votes
   {

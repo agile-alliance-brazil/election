@@ -1,11 +1,13 @@
 INSERT INTO elections (
-  id, name, description, startdate, enddate)
+  id, name, description, startdate, enddate, candidatestoelect, candidatestovoteon)
 VALUES (
   1,
-  'Agile Alliance Brazil Board 2017-2019 election',
-  'This election is for the 2017-2019 board',
-  '2016-09-01 00:00:00-03',
-  '2016-09-25 23:59:59-03');
+  'Eleição da Agile Alliance Brazil para Board 2017-2019',
+  'Eleição para election is for the 2017-2019 board',
+  '2016-09-20 00:00:00-03',
+  '2016-09-22 23:59:59-03',
+  3,
+  3);
 
 INSERT INTO candidates (
   id, electionid, fullname, minibio, email, votecount)

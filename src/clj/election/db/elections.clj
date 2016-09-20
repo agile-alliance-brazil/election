@@ -4,7 +4,8 @@
     [clojure.java.jdbc :as j]
     [clj-time.core :as t]
     [clj-time.coerce :as c]
-    [clj-time.local :as l]
+    [clj-time.format :as f]
+    [election.io-config :as io-config]
     [election.db.config :as db-config]
     [honeysql.core :as sql]
     [honeysql.helpers :as h]
@@ -36,6 +37,7 @@
       conditions (->
         (h/select columns)
         (h/from :elections)
+        (h/order-by [:startdate :desc])
         (merge options))
         query (sql/format conditions)
       ]
@@ -60,9 +62,34 @@
 )
 
 (defn candidates-to-elect-for [election]
-  3
+  (:candidatestoelect election)
 )
 
 (defn positions-to-vote-on [election]
-  (range 1 (+ 1 (candidates-to-elect-for election)))
+  (range 1 (+ 1 (:candidatestovoteon election)))
+)
+
+(defn- parse-datetime [datetime-str]
+  (->> datetime-str
+    (f/parse io-config/datetime-input-formatter)
+    c/to-sql-time
+  )
+)
+
+(defn insert-election [{startdate-str :startdate enddate-str :enddate to-elect :candidatestoelect to-vote :candidatestovoteon :as data}]
+  (first
+    (j/insert!
+      (db-config/dbspec)
+      :elections
+      (merge
+        data
+        {
+          :startdate (parse-datetime startdate-str)
+          :enddate (parse-datetime enddate-str)
+          :candidatestoelect (Integer. to-elect)
+          :candidatestovoteon (Integer. to-vote)
+        }
+      )
+    )
+  )
 )

@@ -10,9 +10,11 @@
     [election.routes.paths :as paths]
     [election.db.tokens :as tokens]
     [election.db.candidates :as candidates]
+    [election.models.users :as users]
     [election.models.candidates :as candidate]
     [election.authorization :as auth]
     [election.i18n.messages :as i18n]
+    [election.io-config :as io-config]
     [ring.util.anti-forgery :refer [anti-forgery-field]]
     [ring.util.response :refer [response]]
     [clj-time.core :as t]
@@ -20,17 +22,24 @@
   )
 )
 
-(defn list-view [request {elections :elections}]
-  (log/info "Rendering election list view")
+(defn list-view [{{user :user} :session :as request} {elections :elections}]
+  (log/info "Rendering election list view for " user)
   (layout/layout request
-    [:ul
-      (list*
-        (map
-          (fn [{id :id name :name}]
-            [:li (link-to (paths/election-path id) name)])
-          elections
+    [:div
+      [:ul.elections
+        (list*
+          (map
+            (fn [{id :id name :name}]
+              [:li (link-to (paths/election-path id) name)])
+            elections
+          )
         )
-      )
+      ]
+      [:ul.actions
+        (if (users/admin? user)
+          [:li (link-to (paths/path-for paths/new-election-matcher) (i18n/t request :elections/create))]
+        )
+      ]
     ]
   )
 )
@@ -39,7 +48,10 @@
   (fn [xs ys]
     (if-let [result (first (drop-while zero? (map (fn [f x y] (. f (compare x y))) comps xs ys)))]
       result
-      0)))
+      0
+    )
+  )
+)
 
 (defn- sorted-candidates-by-vote [election-id]
   (sort-by
@@ -49,13 +61,15 @@
   )
 )
 
-(defn show-view [{session :session :as request} {election-id :id end-date :enddate start-date :startdate :as election}]
+(defn show-view [{{user :user} :session :as request} {election-id :id end-date :enddate start-date :startdate :as election}]
   (log/info "Rendering election show view with " election)
   (layout/election-layout (assoc request :election election)
     [:div
-      (if (auth/can-register-voters? election (:user session))
-        (link-to (paths/new-election-voters-path election-id) (i18n/t request :votes/register))
-      )
+      [:ul.actions
+        (if (auth/can-register-voters? election user)
+          [:li (link-to (paths/new-election-voters-path election-id) (i18n/t request :votes/register))]
+        )
+      ]
       (if (t/before? (t/now) (c/from-sql-time end-date))
         [:h3 (i18n/t request :votes/partial-results)]
         [:h3 (i18n/t request :votes/final-results)]
@@ -105,7 +119,34 @@
     (form/form-to {:enctype "multipart/form-data"} [:put (paths/register-election-voters-path election-id)]
       (anti-forgery-field)
       (form/file-upload :voters)
-      (form/submit-button {:disabled false} (i18n/t request :votes/add-voters))
+      (form/submit-button (i18n/t request :votes/add-voters))
+    )
+  )
+)
+
+(defn- element-with-label [label-text [tag-name {element-name :name} :as element]]
+  [:fieldset.label-input-holder
+    (form/label element-name label-text)
+    element
+  ]
+)
+
+(defn- input-with-label [label-text {input-name :name :as input-options}]
+  (element-with-label label-text [:input input-options])
+)
+
+(defn new-view [request]
+  ; TODO: Add modernizr and handle datetime input
+  (layout/layout request
+    (form/form-to [:post (paths/path-for paths/elections-matcher {})]
+      (anti-forgery-field)
+      (input-with-label (i18n/t request :elections/name) {:type "text" :name "election[name]" :id "election[name]" :required true :autofocus true})
+      (element-with-label (i18n/t request :elections/description) (form/text-area {:required true} "election[description]"))
+      (input-with-label (i18n/t request :elections/startdate) {:type "datetime" :name "election[startdate]" :id "election[startdate]" :placeholder io-config/datetime-input-pattern :required true})
+      (input-with-label (i18n/t request :elections/enddate) {:type "datetime" :name "election[enddate]" :id "election[enddate]" :placeholder io-config/datetime-input-pattern :required true})
+      (input-with-label (i18n/t request :elections/candidates-to-elect) {:type "number" :name "election[candidatestoelect]" :id "election[candidatestoelect]" :min 1 :value 1 :required true})
+      (input-with-label (i18n/t request :elections/candidates-to-vote-on) {:type "number" :name "election[candidatestovoteon]" :id "election[candidatestovoteon]" :min 1 :value 1 :required true})
+      (form/submit-button (i18n/t request :elections/create))
     )
   )
 )

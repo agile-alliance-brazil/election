@@ -58,6 +58,8 @@
 (def register-election-voters-matcher "/:election-id{[0-9]+}/voters")
 (defn register-election-voters-path [election-id] (path-for register-election-voters-matcher {:election-id election-id}))
 
+(def new-election-matcher "/new")
+
 (defn url-for [p]
   (str (:host env) p)
 )

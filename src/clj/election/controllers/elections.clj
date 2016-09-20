@@ -1,5 +1,6 @@
 (ns election.controllers.elections
   (:require
+    [clojure.tools.logging :as log]
     [clojure.data.csv :as csv]
     [clojure.java.io :as io]
     [election.views.elections :as view]
@@ -12,7 +13,8 @@
   )
 )
 
-(defn list-for [request]
+(defn list-for [{session :session :as request}]
+  (log/info "Rendering new election for " session)
   (view/list-view request {:elections (db/elections)})
 )
 
@@ -34,9 +36,9 @@
   )
 )
 
-(defn new-voters [{{election-id :election-id} :params session :session :as request}]
+(defn new-voters [{{election-id :election-id} :params {user :user} :session :as request}]
   (let [election (db/election (read-string election-id))]
-    (if (auth/can-register-voters? election (:user session))
+    (if (auth/can-register-voters? election user)
       (view/new-voters-view request election)
       (->
         (response/redirect (paths/election-path election-id))
@@ -56,10 +58,10 @@
   )
 )
 
-(defn register-voters [{{election-id :election-id {voters-file :tempfile} :voters} :params session :session :as request}]
+(defn register-voters [{{election-id :election-id {voters-file :tempfile} :voters} :params {user :user} :session :as request}]
   (let [election (db/election (read-string election-id))
     response (response/redirect (paths/election-path election-id))]
-    (if (auth/can-register-voters? election (:user session))
+    (if (auth/can-register-voters? election user)
       (let [added-voters-count (voters/register-voters (:id election) (voters-from voters-file))]
         (if added-voters-count
           (assoc response :flash {:type :notice :message (i18n/t request :elections/new-voters-registered added-voters-count)})
@@ -67,6 +69,47 @@
         )
       )
       (assoc response :flash {:type :error :message (i18n/t request :forbidden)})
+    )
+  )
+)
+
+(defn new-election [{{user :user :as session} :session :as request}]
+  (log/info "Rendering new election for " session)
+  (if (auth/can-create-election? user)
+    (view/new-view request)
+    (->
+      (response/redirect (paths/home-path))
+      (assoc :flash {:type :error :message (i18n/t request :forbidden)})
+    )
+  )
+)
+
+(defn- cleanup-parameters [valid-params data]
+  (into {}
+    (filter
+      (fn [[k v]] contains? valid-params k)
+      data
+    )
+  )
+)
+
+(def valid-new-election-params [:name :description :startdate :enddate :candidatestoelect :candidatestovoteon])
+
+(defn create-election [{{election-data :election} :params {user :user} :session :as request}]
+  (if (auth/can-create-election? user)
+    (let [new-election (db/insert-election (cleanup-parameters valid-new-election-params election-data))]
+      (if (nil? (:id new-election))
+        (-> (view/new-view request)
+          ; TODO: Detail potential errors
+          (assoc :flash {:type :error :message (i18n/t request :elections/create-election-failed)})
+        )
+        (-> (response/redirect (paths/path-for paths/election-matcher {:election-id (:id new-election)}))
+          (assoc :flash {:type :notice :message (i18n/t request :elections/election-created)})
+        )
+      )
+    )
+    (-> (response/redirect (paths/home-path))
+      (assoc :flash {:type :error :message (i18n/t request :forbidden)})
     )
   )
 )

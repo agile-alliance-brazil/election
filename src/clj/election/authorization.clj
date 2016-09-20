@@ -9,3 +9,7 @@
 (defn can-register-voters? [{start-date :startdate} user]
   (or (and (t/before? (t/now) (c/from-sql-time start-date)) (users/admin? user)) false)
 )
+
+(defn can-create-election? [user]
+  (users/admin? user)
+)

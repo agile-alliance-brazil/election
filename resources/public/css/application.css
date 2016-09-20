@@ -149,7 +149,7 @@ form.vote input[type=submit]:disabled {
   background-color: lightgray;
 }
 
-.election h3  {
+.election h3 {
   margin: 1rem;
   color: #999;
 }

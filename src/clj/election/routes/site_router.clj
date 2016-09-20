@@ -21,4 +21,6 @@
   (GET paths/logout-matcher request (session/destroy-session request))
   (GET paths/new-election-voters-matcher request (elections/new-voters request))
   (PUT paths/register-election-voters-matcher request (elections/register-voters request))
+  (GET paths/new-election-matcher request (elections/new-election request))
+  (POST paths/elections-matcher request (elections/create-election request))
 )
