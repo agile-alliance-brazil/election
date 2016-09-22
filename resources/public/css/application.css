@@ -54,7 +54,7 @@ h1 {
 .header .session {
   text-align: right;
   float:right;
-  padding: 1rem 2rem;
+  padding: 1rem 2rem 1rem 0;
 }
 
 .header .session a {
@@ -92,11 +92,12 @@ li.candidate {
   float: left;
   border-radius: 7px;
   border: 1px solid #ddd;
+  overflow: hidden;
 }
 
 .vote li.candidate {
   cursor: pointer;
-  height: 27rem;
+  height: 24rem;
   padding: 0 1rem;
 }
 .vote li.candidate:hover {
@@ -108,7 +109,12 @@ li.candidate {
 .vote li.candidate.selected:hover {
   background-color: #FFFFF6;
 }
-.vote li.candidate p {
+.vote li.candidate .top {
+  height: 8rem;
+}
+.vote li.candidate .bio {
+  height: 13rem;
+  overflow: auto;
   text-align: justify;
 }
 
