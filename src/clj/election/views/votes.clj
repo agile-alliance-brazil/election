@@ -34,14 +34,14 @@
   (log/info "Rendering place vote view with " election " and request " params)
   (layout/election-layout (assoc request :election election)
     [:div
-      [:p.instructions (i18n/t request :votes/instructions (elections/candidates-to-elect-for election-id))]
+      [:p.instructions (i18n/t request :votes/instructions (elections/candidates-to-elect-for election))]
       (form-to {:class "vote"} [:post (paths/place-vote-path election-id token)]
         (anti-forgery-field)
         [:ul.candidates
           (list* (map render-candidate (shuffle candidates)))
           (submit-button {:class "clear" :disabled "disabled"} (i18n/t request :votes/place))
         ]
-        (list* (map render-position (elections/positions-to-vote-on election-id)))
+        (list* (map render-position (elections/positions-to-vote-on election)))
       )
     ]
   )

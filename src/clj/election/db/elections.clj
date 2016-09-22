@@ -54,7 +54,9 @@
       (h/where
         [:and
           [:< :startdate (c/to-sql-time (t/now))]
-          [:>= :startdate (c/to-sql-time past-time)]
+          (if (not (nil? past-time))
+            [:>= :startdate (c/to-sql-time past-time)]
+          )
         ]
       )
     )
