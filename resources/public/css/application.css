@@ -96,6 +96,8 @@ li.candidate {
 
 .vote li.candidate {
   cursor: pointer;
+  height: 25rem;
+  padding: 0 1rem;
 }
 .vote li.candidate:hover {
   background-color: #FFFFF6;
