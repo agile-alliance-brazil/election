@@ -63,14 +63,6 @@
   )
 )
 
-(defn candidates-to-elect-for [election]
-  (:candidatestoelect election)
-)
-
-(defn positions-to-vote-on [election]
-  (range 1 (+ 1 (:candidatestovoteon election)))
-)
-
 (defn- parse-datetime [datetime-str]
   (->> datetime-str
     (f/parse io-config/datetime-input-formatter)

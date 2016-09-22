@@ -36,17 +36,17 @@
 )
 
 (defn place-vote-view [{{token :token :as params} :params :as request} {election-id :id candidates :candidates :as election}]
-  (log/info "Rendering place vote view with " election " and request " params)
+  (log/info "Rendering place vote view for election with id " election-id " and request " params)
   (layout/election-layout (assoc request :election election)
     [:div
-      [:p.instructions (i18n/t request :votes/instructions (elections/candidates-to-elect-for election))]
+      [:p.instructions (i18n/t request :votes/instructions (:candidatestoelect election))]
       (form-to {:class "vote"} [:post (paths/place-vote-path election-id token)]
         (anti-forgery-field)
         [:ul.candidates
           (list* (map render-candidate (shuffle candidates)))
           (submit-button {:class "clear" :disabled "disabled"} (i18n/t request :votes/place))
         ]
-        (list* (map render-position (elections/positions-to-vote-on election)))
+        (list* (map render-position (range 1 (+ 1 (:candidatestovoteon election)))))
       )
     ]
   )

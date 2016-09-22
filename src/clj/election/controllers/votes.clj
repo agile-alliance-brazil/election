@@ -12,8 +12,8 @@
     [clj-time.coerce :as c]
     [election.controllers.elections :as election-controller]))
 
-(defn- valid-token? [election token]
-  (not (nil? (tokens/get-valid-token election token))))
+(defn- valid-token? [election-id token]
+  (not (nil? (tokens/get-valid-token election-id token))))
 
 (defn- in-election-phase? [election-id]
   (let [election (elections/election election-id)]
@@ -55,17 +55,19 @@
     (and
       (db/register-vote election vote)
       (tokens/mark-as-used election token)
-      {:type :notice :message (i18n/t request :votes/recoreded)})
+      {:type :notice :message (i18n/t request :votes/recorded)})
     {:type :error :message (i18n/t request :votes/used-token)}
   )
 )
 
-(defn- valid-vote? [election votes]
-  (let [candidates (db/candidates-for election)
-    ids (map (fn [candidate] (str (:id candidate))) candidates)]
+(defn- valid-vote? [election-id votes]
+  (let [election (elections/election election-id)
+    candidates (db/candidates-for election-id)
+    ids (map (fn [candidate] (str (:id candidate))) candidates)
+    casted-votes (count (filter (fn [id] (some #(= id %) ids)) votes))]
     (=
-      (count (filter (fn [id] (some #(= id %) ids)) votes))
-      (elections/candidates-to-elect-for election)
+      casted-votes
+      (:candidatestoelect election)
     )
   )
 )
