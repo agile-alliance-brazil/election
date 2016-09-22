@@ -9,6 +9,7 @@
     [hiccup.form :refer (form-to text-field submit-button)]
     [ring.util.anti-forgery :refer [anti-forgery-field]]
     [hiccup.form :as form]
+    [markdown.core :as md]
   )
 )
 
@@ -27,7 +28,7 @@
 )
 
 (defn- render-candidate [candidate]
-  (render-candidate-base candidate (fn [c] [:p (:minibio c)]))
+  (render-candidate-base candidate (fn [c] [:p (md/md-to-html-string (:minibio c))]))
 )
 
 (defn place-vote-view [{{token :token :as params} :params :as request} {election-id :id candidates :candidates :as election}]

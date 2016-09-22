@@ -33,7 +33,11 @@ VALUES (
   3,
   1,
   'Cecilia Fernandes',
-  'Na minha experiência na Agile Brazil aprendi muito nos mais diversos aspectos, vi a conferência evoluir de um grupo para uma instituição, enxergo uma progressão na transparência nos processos e tenho a esperança de que a AAB pode fazer mais ainda.\n\nEm todas as minhas participações, eu faço questão de um valor: coragem. Do universo de pessoas que trabalharam comigo, há quem me odeie e quem adore meu estilo. Algo inegável, no entanto, é que eu ajo -- eu ativamente busco o que fazer e me envolvo com os trabalhos para tirá-los do papel.\n\nE é isso que eu quero levar para o board da AAB: ação. Quero tirar do papel o monte de ideias boas que ouço e experimentá-las, engajar as tantas pessoas da comunidade que, tanto querem se ajudar, que ativamente participam do agilidade.slack.com. E, claro, quero continuar contribuindo para o movimento ágil no Brasil de uma forma diferente do que venho fazendo, e aprender com o processo.',
+  'Na minha experiência na Agile Brazil aprendi muito nos mais diversos aspectos, vi a conferência evoluir de um grupo para uma instituição, enxergo uma progressão na transparência nos processos e tenho a esperança de que a AAB pode fazer mais ainda.
+
+Em todas as minhas participações, eu faço questão de um valor: coragem. Do universo de pessoas que trabalharam comigo, há quem me odeie e quem adore meu estilo. Algo inegável, no entanto, é que eu ajo -- eu ativamente busco o que fazer e me envolvo com os trabalhos para tirá-los do papel.
+
+E é isso que eu quero levar para o board da AAB: ação. Quero tirar do papel o monte de ideias boas que ouço e experimentá-las, engajar as tantas pessoas da comunidade que, tanto querem se ajudar, que ativamente participam do agilidade.slack.com. E, claro, quero continuar contribuindo para o movimento ágil no Brasil de uma forma diferente do que venho fazendo, e aprender com o processo.',
   'contato@cecifernandes.com',
   0);
 INSERT INTO candidates (
@@ -51,7 +55,12 @@ VALUES (
   5,
   1,
   'Magno de Santana Silva',
-  'Embora as equipes técnicas tenham avançado nos últimos anos com o uso de conceitos e práticas Ágeis, acredito que ainda há um abismo entre o pessoal técnico e o pessoal de negócio.\n\nQuero contribuir com meu conhecimento para diminuir o abismo existente entre essas áreas, promovendo eventos com maior foco na área de negócios, para que haja equilíbrio entre as partes. Aumentando, dessa forma, a entrega de software de valor baseado em conceitos e práticas do mundo Ágil, além de fortalecer a comunidade Ágil na região centro-oeste do país, principalmente no estado do Mato Grosso do Sul.',
+  'Embora as equipes técnicas tenham avançado nos últimos anos com o uso de conceitos e práticas Ágeis, acredito que ainda há um abismo entre o pessoal
+técnico e o pessoal de negócio.
+
+Quero contribuir com meu conhecimento para diminuir o abismo existente entre essas áreas, promovendo eventos com maior
+foco na área de negócios, para que haja equilíbrio entre as partes. Aumentando, dessa forma, a entrega de software de valor baseado em conceitos e práticas do mundo Ágil, além de fortalecer
+a comunidade Ágil na região centro-oeste do país, principalmente no estado do Mato Grosso do Sul.',
   'magnodesantana@gmail.com',
   0);
 INSERT INTO candidates (
