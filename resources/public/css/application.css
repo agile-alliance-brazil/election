@@ -97,7 +97,7 @@ li.candidate {
 
 .vote li.candidate {
   cursor: pointer;
-  height: 24rem;
+  height: 27rem;
   padding: 0 1rem;
 }
 .vote li.candidate:hover {
@@ -113,7 +113,7 @@ li.candidate {
   height: 8rem;
 }
 .vote li.candidate .bio {
-  height: 13rem;
+  height: 16rem;
   overflow: auto;
   text-align: justify;
 }

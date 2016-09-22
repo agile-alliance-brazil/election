@@ -15,6 +15,7 @@
     {:lang (name (or locale i18n/preferred-language))}
     [:head
       [:meta{:http-equiv "Content-Type" :content "text/html; charset=UTF-8" :charset "utf-8"}]
+      [:meta{:name "viewport" :content "width=device-width, initial-scale=1.0"}]
       (map page/include-css (link/bundle-paths request ["application.css"]))]
     [:body {}
       [:div.header
