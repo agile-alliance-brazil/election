@@ -44,7 +44,7 @@
         (anti-forgery-field)
         [:ul.candidates
           (list* (map render-candidate (shuffle candidates)))
-          (submit-button {:class "clear" :disabled "disabled"} (i18n/t request :votes/place))
+          (submit-button {:class "clear" :disabled "disabled" :data-confirm-message (i18n/t request :votes/confirm)} (i18n/t request :votes/place))
         ]
         (list* (map render-position (range 1 (+ 1 (:candidatestovoteon election)))))
       )

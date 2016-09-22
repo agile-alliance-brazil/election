@@ -41,7 +41,7 @@
   };
 
   var confirmVote = function() {
-    if (confirm('Votes cannot be changed once cast. Are you sure you want to cast your vote?')) {
+    if (confirm($(this).data('confirm-message'))) {
       this.submit();
     } else {
       return false;

@@ -27,6 +27,7 @@
     :not-accepting-votes "Not currently in voting period"
     :recorded "Vote recorded! Thank you."
     :invalid "Invalid vote. Please ensure you selected the right amount of candidates."
+    :confirm "Votes cannot be changed once cast. Are you sure you want to cast your vote?"
   }
   :session
   {

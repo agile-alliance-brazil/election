@@ -27,6 +27,7 @@
     :not-accepting-votes "Essa eleição não está em período de votação"
     :recorded "Voto contabilizado! Obrigado."
     :invalid "Voto inválido. Por favor, verifique que selecionou a quantidade correta de candidatos."
+    :confirm "Votos não podem ser alterados uma vez que forem enviados. Você tem certeza que deseja enviar seu voto?"
   }
   :session
   {
