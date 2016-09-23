@@ -22,8 +22,8 @@
 (defn render-candidate-base [candidate extra-content-function]
   [:li.candidate{:data-candidate-id (:id candidate) :id (str "candidate-" (:id candidate))}
     [:div.top
-      [:h3.name (:fullname candidate)]
       [:img.photo{:src (candidates/picture-url candidate)}]
+      [:h3.name (:fullname candidate)]
     ]
     [:div.bio
       (extra-content-function candidate)
