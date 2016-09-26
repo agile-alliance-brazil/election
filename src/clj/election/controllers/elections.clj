@@ -62,7 +62,8 @@
   (let [election (db/election (Integer. election-id))
     response (response/redirect (paths/election-path election-id))]
     (if (auth/can-register-voters? election user)
-      (let [added-voters-count (voters/register-voters (:id election) (voters-from voters-file))]
+      (let [voters (voters-from voters-file)
+        added-voters-count (voters/register-voters (:id election) voters)]
         (if added-voters-count
           (assoc response :flash {:type :notice :message (i18n/t request :elections/new-voters-registered added-voters-count)})
           (assoc response :flash {:type :error :message (i18n/t request :elections/voter-registration-failed)})

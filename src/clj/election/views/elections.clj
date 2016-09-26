@@ -9,6 +9,7 @@
     [election.views.votes :as votes]
     [election.routes.paths :as paths]
     [election.db.tokens :as tokens]
+    [election.db.voters :as voters]
     [election.db.candidates :as candidates]
     [election.models.users :as users]
     [election.models.candidates :as candidate]
@@ -64,8 +65,8 @@
 (defn show-view [{{user :user} :session :as request} {election-id :id end-date :enddate start-date :startdate :as election}]
   (log/info "Rendering election show view with " election)
   (let [candidates (sorted-candidates-by-vote election-id)
-    token-count (tokens/token-count-for election-id)
-    expected-votes (* (:candidatestovoteon election) token-count)
+    voter-count (voters/voters-count-for election-id)
+    expected-votes (* (:candidatestovoteon election) voter-count)
     votes-received (reduce + (map #(:votecount %) candidates))]
     (layout/election-layout (assoc request :election election)
       [:div
@@ -88,7 +89,7 @@
           ]
           [:tbody
             [:tr
-              [:td token-count]
+              [:td voter-count]
               [:td expected-votes]
               [:td votes-received]
             ]
@@ -110,8 +111,9 @@
 )
 
 (defn show-json-view [_ {election-id :id name :name end-date :enddate start-date :startdate :as election}]
-  (let [voter-count (tokens/token-count-for election-id)
-    vote-count (tokens/used-token-count-for election-id)]
+  (let [candidates (sorted-candidates-by-vote election-id)
+    voter-count (voters/voters-count-for election-id)
+    vote-count (reduce + (map #(:votecount %) candidates))]
     (response
       {
         :id election-id
@@ -129,7 +131,7 @@
               :voteCount (:votecount c)
             }
           )
-          (sorted-candidates-by-vote election-id))
+          candidates)
       }
     )
   )
