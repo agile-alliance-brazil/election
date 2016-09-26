@@ -32,7 +32,7 @@
 )
 
 (defn- render-candidate [candidate]
-  (render-candidate-base candidate (fn [c] [:p (md/md-to-html-string (:minibio c))]))
+  (render-candidate-base candidate (fn [c] (md/md-to-html-string (:minibio c))))
 )
 
 (defn place-vote-view [{{token :token :as params} :params :as request} {election-id :id candidates :candidates :as election}]
