@@ -19,16 +19,16 @@
 )
 
 (defn show [{{election-id :election-id} :params :as request}]
-  (let [election (db/election (read-string election-id))]
+  (let [election (db/election (Integer. election-id))]
     (if (nil? (:id election))
       (response/not-found (slurp (io/resource "404.html")))
-      (view/show-view request (db/election (read-string election-id)))
+      (view/show-view request election)
     )
   )
 )
 
 (defn show-json  [{{election-id :election-id} :params :as request}]
-  (let [election (db/election (read-string election-id))]
+  (let [election (db/election (Integer. election-id))]
     (if (nil? (:id election))
       (response/not-found {:message (i18n/t request :elections/not-found election-id)})
       (view/show-json-view request election)
@@ -37,7 +37,7 @@
 )
 
 (defn new-voters [{{election-id :election-id} :params {user :user} :session :as request}]
-  (let [election (db/election (read-string election-id))]
+  (let [election (db/election (Integer. election-id))]
     (if (auth/can-register-voters? election user)
       (view/new-voters-view request election)
       (->
@@ -59,7 +59,7 @@
 )
 
 (defn register-voters [{{election-id :election-id {voters-file :tempfile} :voters} :params {user :user} :session :as request}]
-  (let [election (db/election (read-string election-id))
+  (let [election (db/election (Integer. election-id))
     response (response/redirect (paths/election-path election-id))]
     (if (auth/can-register-voters? election user)
       (let [added-voters-count (voters/register-voters (:id election) (voters-from voters-file))]

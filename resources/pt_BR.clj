@@ -28,6 +28,9 @@
     :recorded "Voto contabilizado! Obrigado."
     :invalid "Voto inválido. Por favor, verifique que selecionou a quantidade correta de candidatos."
     :confirm "Votos não podem ser alterados uma vez que forem enviados. Você tem certeza que deseja enviar seu voto?"
+    :voter-count "Total de eleitores"
+    :votes-count "Total de votos a receber"
+    :casted-votes-count "Total de votos recebidos"
   }
   :session
   {

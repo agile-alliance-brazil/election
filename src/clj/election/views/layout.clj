@@ -10,7 +10,7 @@
   )
 )
 
-(defn layout [{{type :type message :message} :flash locale :locale {user :user} :session :as request} content]
+(defn layout [{{type :type message :message} :flash locale :locale {user :user options :options} :session :as request} content]
   (page/html5
     {:lang (name (or locale i18n/preferred-language))}
     [:head
@@ -24,12 +24,14 @@
             (e/link-to (paths/path-for paths/elections-matcher) (e/image "/images/agile-alliance.jpg" (i18n/t request :agile-alliance-logo)))
           ]
           [:ul.actions]
-          [:div.session
-            (if (nil? user)
-              (e/link-to (p/login-path) (i18n/t request :session/new))
-              (e/link-to (p/logout-path) (i18n/t request :session/destroy (:first_name user)))
-            )
-          ]
+          (if (not (:no-login options))
+            [:div.session
+              (if (nil? user)
+                (e/link-to (p/login-path) (i18n/t request :session/new))
+                (e/link-to (p/logout-path) (i18n/t request :session/destroy (:first_name user)))
+              )
+            ]
+          )
         ]
       ]
       [:div.content
@@ -47,7 +49,7 @@
 )
 
 (defn election-layout [{{name :name} :election :as request} content]
-  (layout request
+  (layout (assoc-in request [:session :options :no-login] true)
     [:div.election
       [:h1 name]
       content

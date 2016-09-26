@@ -194,6 +194,13 @@ form.vote input[type=submit]:disabled {
   font-weight: 300;
 }
 
+.election .summary {
+  width: 100%;
+  margin: 1rem;
+  box-sizing: border-box;
+  text-align: center;
+}
+
 h4.votecount {
   font-size: 2rem;
   margin: 0.5rem 0;

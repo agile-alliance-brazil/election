@@ -63,28 +63,49 @@
 
 (defn show-view [{{user :user} :session :as request} {election-id :id end-date :enddate start-date :startdate :as election}]
   (log/info "Rendering election show view with " election)
-  (layout/election-layout (assoc request :election election)
-    [:div
-      [:ul.actions
-        (if (auth/can-register-voters? election user)
-          [:li (link-to (paths/new-election-voters-path election-id) (i18n/t request :votes/register))]
+  (let [candidates (sorted-candidates-by-vote election-id)
+    token-count (tokens/token-count-for election-id)
+    expected-votes (* (:candidatestovoteon election) token-count)
+    votes-received (reduce + (map #(:votecount %) candidates))]
+    (layout/election-layout (assoc request :election election)
+      [:div
+        [:ul.actions
+          (if (auth/can-register-voters? election user)
+            [:li (link-to (paths/new-election-voters-path election-id) (i18n/t request :votes/register))]
+          )
+        ]
+        (if (and (t/before? (t/now) (c/from-sql-time end-date)) (< votes-received expected-votes))
+          [:h3 (i18n/t request :votes/partial-results)]
+          [:h3 (i18n/t request :votes/final-results)]
         )
-      ]
-      (if (t/before? (t/now) (c/from-sql-time end-date))
-        [:h3 (i18n/t request :votes/partial-results)]
-        [:h3 (i18n/t request :votes/final-results)]
-      )
-      [:ul.candidates
-        (map
-          (fn [candidate] (votes/render-candidate-base candidate (fn [c]
-            [:h4.votecount (:votecount c)
-              [:span (i18n/t request :votes/count) ]
+        [:table.vote-count.summary
+          [:thead
+            [:tr
+              [:th (i18n/t request :votes/voter-count)]
+              [:th (i18n/t request :votes/votes-count)]
+              [:th (i18n/t request :votes/casted-votes-count)]
             ]
-          )))
-          (sorted-candidates-by-vote election-id)
-        )
+          ]
+          [:tbody
+            [:tr
+              [:td token-count]
+              [:td expected-votes]
+              [:td votes-received]
+            ]
+          ]
+        ]
+        [:ul.candidates
+          (map
+            (fn [candidate] (votes/render-candidate-base candidate (fn [c]
+              [:h4.votecount (:votecount c)
+                [:span (i18n/t request :votes/count) ]
+              ]
+            )))
+            candidates
+          )
+        ]
       ]
-    ]
+    )
   )
 )
 

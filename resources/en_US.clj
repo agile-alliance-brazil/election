@@ -28,6 +28,9 @@
     :recorded "Vote recorded! Thank you."
     :invalid "Invalid vote. Please ensure you selected the right amount of candidates."
     :confirm "Votes cannot be changed once cast. Are you sure you want to cast your vote?"
+    :voter-count "Total voter count"
+    :votes-count "Total votes to receive"
+    :casted-votes-count "Total votes received"
   }
   :session
   {

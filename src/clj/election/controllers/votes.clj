@@ -15,36 +15,36 @@
 (defn- valid-token? [election-id token]
   (not (nil? (tokens/get-valid-token election-id token))))
 
-(defn- in-election-phase? [election-id]
-  (let [election (elections/election election-id)]
-    (and
-      (t/after? (t/now) (c/from-sql-time (:startdate election)))
-      (t/before? (t/now) (c/from-sql-time (:enddate election)))
-    )
+(defn- in-election-phase? [election]
+  (and
+    (t/after? (t/now) (c/from-sql-time (:startdate election)))
+    (t/before? (t/now) (c/from-sql-time (:enddate election)))
   )
 )
 
-(defn- build-flash [request election-id token]
+(defn- build-flash [request election token]
   {
     :type :error
     :message
-    (if (in-election-phase? election-id)
-      (i18n/t request :votes/used-token)
-      (i18n/t request :votes/not-accepting-votes)
+    (i18n/t request
+      (if (in-election-phase? election)
+        :votes/used-token
+        :votes/not-accepting-votes
+      )
     )
   }
 )
 
 (defn new-vote [{{election-id :election-id token :token} :params :as request}]
-  (let [election (elections/election (read-string election-id))]
-    (if (and (in-election-phase? (:id election)) (valid-token? (:id election) token))
+  (let [election (elections/election (Integer. election-id))]
+    (if (and (in-election-phase? election) (valid-token? (:id election) token))
       (view/place-vote-view
         request
         (assoc election :candidates (db/candidates-for (:id election)))
       )
       (->
         (redirect (paths/election-path (:id election)))
-        (assoc :flash (build-flash request (:id election) token))
+        (assoc :flash (build-flash request election token))
       )
     )
   )
@@ -73,13 +73,13 @@
 )
 
 (defn place [{{election :election-id token :token votes :vote} :params :as request}]
-  (let [election-id (read-string election)]
+  (let [election-id (Integer. election)]
     (if (valid-vote? election-id votes)
       (->
         (redirect (paths/election-path election-id))
         (assoc
           :flash
-          (register-vote request election-id (map read-string votes) token)
+          (register-vote request election-id (map #(Integer. %) votes) token)
         )
       )
       (new-vote

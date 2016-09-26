@@ -24,6 +24,7 @@
     sql/format
     (j/query (db-config/dbspec))
     first
+    :count
   )
 )
 
@@ -36,6 +37,7 @@
     sql/format
     (j/query (db-config/dbspec))
     first
+    :count
   )
 )
 
