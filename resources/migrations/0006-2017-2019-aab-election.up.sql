@@ -4,8 +4,8 @@ VALUES (
   1,
   'Eleição da Agile Alliance Brazil para Board 2017-2019',
   'Eleição para election is for the 2017-2019 board',
-  '2016-09-23 00:00:00-03',
-  '2016-10-07 23:59:59-03',
+  '2016-09-26 06:00:00-03',
+  '2016-10-09 23:59:59-03',
   3,
   3);
 
