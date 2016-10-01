@@ -85,7 +85,7 @@ Agile Alliance Brazil"
     }
     :connection
     {
-      :successful "Conexão até %s respondeu com código %d em %.2f ms."
+      :successful "Conexão até '%s' respondeu com código %s em %d ms."
       :failed "Pedido HTTP falhou: %s"
     }
   }

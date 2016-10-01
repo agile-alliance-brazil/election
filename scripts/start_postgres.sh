@@ -18,7 +18,7 @@ fi
 
 if [[ -z `ps xau | grep postgresql | grep -v grep | grep -v java` ]]; then
   echo "Starting postgres"
-  pg_ctl -D ${POSTGRES_FOLDER} -l ${POSTGRES_FOLDER}/server.log stop
+  pg_ctl -D ${POSTGRES_FOLDER} -l ${POSTGRES_FOLDER}/server.log start
 fi
 
 sleep 1

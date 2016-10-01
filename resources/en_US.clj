@@ -82,7 +82,7 @@ Agile Alliance Brazil"
     }
     :connection
     {
-      :successful "Connection to %s has response code %d with response time %.2f ms."
+      :successful "Connection to '%s' has response code %s with response time %d ms."
       :failed "HTTP request failed: %s"
     }
   }
