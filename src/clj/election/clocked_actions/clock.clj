@@ -6,6 +6,7 @@
     [election.db.clocks :as db]
     [cheshire.core :as cheshire]
     [election.clocked-actions.election-start :as election-start]
+    [election.clocked-actions.election-close-to-end :as election-close-to-end]
   )
 )
 
@@ -14,6 +15,7 @@
 (def actions
   [
     #'election-start/send-voter-tokens
+    #'election-close-to-end/send-voter-reminder
   ]
 )
 
