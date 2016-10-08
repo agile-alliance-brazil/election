@@ -74,6 +74,80 @@ Você deve votar em três candidatos e tem até %s para submeter seu voto.
 Agradecemos a sua participação,
 Agile Alliance Brazil"
     }
+    :reminder
+    {
+      :subject "A eleição %s está quase terminando. Lembre-se de votar."
+      :text! "Olá %s,
+
+A Agile Alliance Brazil está no seu primeiro ciclo de renovação do board de diretores da associação.
+Por meio de uma eleição entre o corpo de membros brasileiros da Agile Alliance, selecionaremos entre
+%d candidatos(as), os %d novos(as) integrantes do conselho de administração para o período de 2017-2019.
+
+Seu voto, como membro(a) da Agile Alliance Brazil, é muito importante para esse processo. Caso já
+tenha votado, não precisa fazer mais nada. Muito obrigado. Se ainda não tiver votado, conheça
+um pouco mais sobre cada candidato(a) participante dessa eleição (listados em ordem alfabética) abaixo. Para
+votar, procure em sua caixa de e-mail por um mensagem intitulada '%s'. Nela você encontrará um
+link único para fazer sua votação com a máxima segurança até %s.
+
+Candidatos(as):
+
+%s
+
+Atenciosamente,
+
+Agile Alliance Brazil"
+      :candidate-partial-text! "#%s
+
+Descreva um pouco sobre a sua motivação para participar do board da Agile Alliance Brazil no período 2017-2019.
+
+%s
+
+Região: %s
+
+Mini-Bio:
+
+%s
+
+Rede Social: %s
+
+---
+"
+      :html* "Olá %s,
+
+A Agile Alliance Brazil está no seu primeiro ciclo de renovação do board de diretores da associação.
+Por meio de uma eleição entre o corpo de membros brasileiros da Agile Alliance, selecionaremos entre
+%d candidatos(as), os %d novos(as) integrantes do conselho de administração para o período de 2017-2019.
+
+Seu voto, como membro(a) da Agile Alliance Brazil, é muito importante para esse processo. Caso já
+tenha votado, não precisa fazer mais nada. Muito obrigado. Se ainda não tiver votado, conheça
+um pouco mais sobre cada candidato(a) participante dessa eleição (listados em ordem alfabética) abaixo. Para
+votar, procure em sua caixa de e-mail por um mensagem intitulada **%s**. Nela você
+encontrará um link único para fazer sua votação com a máxima segurança até **%s**.
+
+##Candidatos(as):
+
+%s
+
+Atenciosamente,
+
+Agile Alliance Brazil"
+      :candidate-partial-html* "#%s
+
+**Descreva um pouco sobre a sua motivação para participar do board da Agile Alliance Brazil no período 2017-2019.**
+
+%s
+
+**Região:** %s
+
+**Mini-Bio:**
+
+%s
+
+**Rede Social:** [%s](%s)
+
+---
+"
+    }
   }
   :status
   {

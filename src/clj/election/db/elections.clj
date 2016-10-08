@@ -50,15 +50,14 @@
 (defn started-since-now-and [past-time]
   (elections
     :*
-    (->
-      (h/where
-        [:and
-          [:< :startdate (c/to-sql-time (t/now))]
-          (if (not (nil? past-time))
-            [:>= :startdate (c/to-sql-time past-time)]
-          )
-        ]
-      )
+    (h/where
+      [:and
+        [:< :startdate (c/to-sql-time (t/now))]
+        (if (not (nil? past-time))
+          [:>= :startdate (c/to-sql-time past-time)]
+          true
+        )
+      ]
     )
   )
 )
@@ -67,6 +66,21 @@
   (->> datetime-str
     (f/parse io-config/datetime-input-formatter)
     c/to-sql-time
+  )
+)
+
+(defn ending-in-days-since [days past-time]
+  (elections
+    :*
+    (h/where
+      [:and
+        [:< :enddate (c/to-sql-time (t/plus (t/now) (t/days days)))]
+        (if (not (nil? past-time))
+          [:>= :enddate (c/to-sql-time (t/plus past-time (t/days days)))]
+          true
+        )
+      ]
+    )
   )
 )
 

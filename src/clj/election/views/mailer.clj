@@ -8,6 +8,7 @@
     [clj-time.format :as f]
     [hiccup.core :as hiccup]
     [hiccup.element :as element]
+    [markdown.core :as md]
   )
   (:import [java.util Locale])
 )
@@ -47,6 +48,71 @@
   )
 )
 
+(defn text-candidate-partial [locale]
+  (fn [{:keys [fullname minibio motivation region twitterhandle]}]
+    (i18n/t
+      {:locale locale}
+      :mailer/reminder/candidate-partial-text
+      fullname
+      motivation
+      region
+      minibio
+      (str "https://twitter.com/" twitterhandle)
+    )
+  )
+)
+
+(defn html-candidate-partial [locale]
+  (fn [{:keys [fullname minibio motivation region twitterhandle]}]
+    (i18n/t
+      {:locale locale}
+      :mailer/reminder/candidate-partial-html
+      fullname
+      (md/md-to-html-string motivation)
+      region
+      (md/md-to-html-string minibio)
+      (str "twitter.com/" twitterhandle)
+      (str "https://twitter.com/" twitterhandle)
+    )
+  )
+)
+
+(defn- text-reminder-email [{voter-name :fullname} {:keys [candidates enddate name candidatestoelect]}]
+  (let [locale i18n/preferred-language]
+    (i18n/t
+      {:locale locale}
+      :mailer/reminder/text
+      voter-name
+      (count candidates)
+      candidatestoelect
+      (i18n/t {:locale locale} :mailer/token/subject name)
+      (format-date locale enddate)
+      (clojure.string/join
+        "\n\n"
+        (map (text-candidate-partial locale) candidates)
+      )
+    )
+  )
+)
+
+(defn- html-reminder-email [{voter-name :fullname} {:keys [candidates enddate name candidatestoelect]}]
+  (let [locale i18n/preferred-language]
+    (i18n/t
+      {:locale locale}
+      :mailer/reminder/html
+      voter-name
+      (count candidates)
+      candidatestoelect
+      (i18n/t {:locale locale} :mailer/token/subject name)
+      (format-date locale enddate)
+      (clojure.string/join
+        "\n\n"
+        (map (html-candidate-partial locale) candidates)
+      )
+    )
+  )
+)
+
 (defn election-token-email-body [token]
   [
     :alternative
@@ -57,6 +123,20 @@
     {
       :type "text/html"
       :content (html-token-email token)
+    }
+  ]
+)
+
+(defn election-reminder-email-body [{election :election :as voter}]
+  [
+    :alternative
+    {
+      :type "text/plain"
+      :content (text-reminder-email voter election)
+    }
+    {
+      :type "text/html"
+      :content (html-reminder-email voter election)
     }
   ]
 )

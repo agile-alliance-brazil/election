@@ -71,6 +71,78 @@ You have to vote in three candidates and must cast your vote until %s.
 Thank you for your participation,
 Agile Alliance Brazil"
     }
+    :reminder
+    {
+      :subject "The election %s is ending soon. Please remember to place your vote."
+      :text! "Hello %s,
+
+Agile Alliance Brazil is in its first board renewal cycle. Through an election with voters from the
+Brazilian members of Agile Alliance, we will select, among %d candidates, the %d new board members for
+the 2017-2019 term.
+
+Your vote, as a member of Agile Alliance Brazil, is very important for this process. If you already cast
+your vote, no further action is needed. Thank you very much. If you have not cast your vote, learn a bit more
+about each candidate below (sorted alphabetically). To vote, search your inbox for an email with subject
+'%s'. In it, you will find a unique link to place your vote securely until %s.
+
+Candidates:
+
+%s
+
+Sincerely,
+
+Agile Alliance Brazil"
+      :candidate-partial-text! "#%s
+
+Describe a little bit about your reasons to be part of the Agile Alliance Brazil board between 2017 and 2019.
+
+%s
+
+Region: %s
+
+Mini-Bio:
+
+%s
+
+Social Network: %s
+
+---
+"
+      :html* "Hello %s,
+
+Agile Alliance Brazil is in its first board renewal cycle. Through an election with voters from the
+Brazilian members of Agile Alliance, we will select, among %d candidates, the %d new board members for
+the 2017-2019 term.
+
+Your vote, as a member of Agile Alliance Brazil, is very important for this process. If you already cast
+your vote, no further action is needed. Thank you very much. If you have not cast your vote, learn a bit more
+about each candidate below (sorted alphabetically). To vote, search your inbox for an email with subject
+**%s**. In it, you will find a unique link to place your vote securely until **%s**.
+
+Candidates:
+
+%s
+
+Sincerely,
+
+Agile Alliance Brazil"
+      :candidate-partial-html* "#%s
+
+**Describe a little bit about your reasons to be part of the Agile Alliance Brazil board between 2017 and 2019.**
+
+%s
+
+**Region:** %s
+
+**Mini-Bio:**
+
+%s
+
+**Social Network:** [%s](%s)
+
+---
+"
+    }
   }
   :status
   {

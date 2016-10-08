@@ -2,13 +2,12 @@
   (:require
     [clojure.tools.logging :as log]
     [election.java-bridge :as bridge]
-    [postal.core :as postal]
-    [environ.core :refer [env]]
-    [election.views.mailer :as mailer]
+    [election.views.mailer :as view]
     [election.db.elections :as elections]
     [election.db.tokens :as tokens]
     [election.db.voters :as voters]
     [election.i18n.messages :as i18n]
+    [election.services.mailer :as mailer]
   )
 )
 
@@ -22,25 +21,27 @@
 )
 
 (defn send-email [{{name :name} :election email :email :as token}]
-  (postal/send-message
+  (mailer/send-email
     {
-      :user (:aws-user env)
-      :pass (:aws-pass env)
-      :host (:aws-host env)
-      :port 587
-    }
-    {
-      :from (:email-sender env)
       :to email
       :subject (i18n/t {:locale i18n/preferred-language} :mailer/token/subject name)
-      :body (mailer/election-token-email-body token)
+      :body (view/election-token-email-body token)
     }
   )
 )
 
 (defn- register-tokens [election tokens]
   (map
-    (fn [token] (and (tokens/save-token token) (send-email token)))
+    (fn [token]
+      (try
+        (and (tokens/save-token token) (send-email token))
+        (catch Exception e
+          (log/error "Error while processing token with ID " (:id token) " for email " (:email token) ": " (.getMessage e))
+          (.printStackTrace e)
+          { :code 1 :error :FAILED :message (.getMessage e) :token-id (:id token) :email (:email token) }
+        )
+      )
+    )
     (map #(assoc % :election election) tokens)
   )
 )
@@ -56,8 +57,16 @@
   (let [elections (elections/started-since-now-and last-run-datetime)]
     (reduce merge {}
       (map
-        (fn [election]
-          {(:id election) {:token-count (count (notify-voters election))}}
+        (let [results (notify-voters election)
+          successes (filter #(= (:code %) 0) results)
+          failures (filter #(= (:code %) 1) results)]
+          {
+            (:id election)
+            {
+              :success (count successes)
+              :failures (map (fn [f] {:email (:email f) :token (:token f)}) failures)
+            }
+          }
         )
         elections
       )
