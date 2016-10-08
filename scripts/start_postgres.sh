@@ -16,8 +16,8 @@ if [[ ! -d ${POSTGRES_FOLDER} ]]; then
   (mkdir -p ${POSTGRES_FOLDER} &> /dev/null) && (initdb ${POSTGRES_FOLDER} &> /dev/null) || (echo "DB folder already set up" &> /dev/null)
 fi
 
-if [[ -z `ps xau | grep postgresql | grep -v grep | grep -v java` ]]; then
-  echo "Starting postgres"
+if [[ -z `ps xau | grep bin/postgres | grep -v grep | grep -v java | grep -v psql` ]]; then
+  echo "Starting postgres..."
   pg_ctl -D ${POSTGRES_FOLDER} -l ${POSTGRES_FOLDER}/server.log start
 fi
 
