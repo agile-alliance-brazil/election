@@ -7,6 +7,7 @@
     [cheshire.core :as cheshire]
     [election.clocked-actions.election-start :as election-start]
     [election.clocked-actions.election-close-to-end :as election-close-to-end]
+    [clj-time.coerce :as c]
   )
 )
 
@@ -49,7 +50,7 @@
   [& m]
   (println "Starting clock process with interval " clock-interval "ms...")
   (while true
-    (run (:id (db/create-new-run)) (:enddate (db/last-clock-info)))
+    (run (:id (db/create-new-run)) (c/from-sql-time (:enddate (db/last-clock-info))))
     (Thread/sleep clock-interval)
   )
 )

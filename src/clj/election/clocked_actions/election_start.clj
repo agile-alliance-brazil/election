@@ -57,16 +57,18 @@
   (let [elections (elections/started-since-now-and last-run-datetime)]
     (reduce merge {}
       (map
-        (let [results (notify-voters election)
-          successes (filter #(= (:code %) 0) results)
-          failures (filter #(= (:code %) 1) results)]
-          {
-            (:id election)
+        (fn [election]
+          (let [results (notify-voters election)
+            successes (filter #(= (:code %) 0) results)
+            failures (filter #(= (:code %) 1) results)]
             {
-              :success (count successes)
-              :failures (map (fn [f] {:email (:email f) :token (:token f)}) failures)
+              (:id election)
+              {
+                :success (count successes)
+                :failures (map (fn [f] {:email (:email f) :token (:token f)}) failures)
+              }
             }
-          }
+          )
         )
         elections
       )
