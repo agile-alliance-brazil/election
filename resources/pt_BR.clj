@@ -87,7 +87,8 @@ Seu voto, como membro(a) da Agile Alliance Brazil, é muito importante para esse
 tenha votado, não precisa fazer mais nada. Muito obrigado. Se ainda não tiver votado, conheça
 um pouco mais sobre cada candidato(a) participante dessa eleição (listados em ordem alfabética) abaixo. Para
 votar, procure em sua caixa de e-mail por um mensagem intitulada '%s'. Nela você encontrará um
-link único para fazer sua votação com a máxima segurança até %s.
+link único para fazer sua votação com a máxima segurança até %s. Se tiver dificuldades, responda este email
+descrevendo seu problema para lhe ajudarmos.
 
 Candidatos(as):
 
@@ -122,7 +123,8 @@ Seu voto, como membro(a) da Agile Alliance Brazil, é muito importante para esse
 tenha votado, não precisa fazer mais nada. Muito obrigado. Se ainda não tiver votado, conheça
 um pouco mais sobre cada candidato(a) participante dessa eleição (listados em ordem alfabética) abaixo. Para
 votar, procure em sua caixa de e-mail por um mensagem intitulada **%s**. Nela você
-encontrará um link único para fazer sua votação com a máxima segurança até **%s**.
+encontrará um link único para fazer sua votação com a máxima segurança até **%s**. Se tiver dificuldades, responda este email
+descrevendo seu problema para lhe ajudarmos.
 
 ##Candidatos(as):
 

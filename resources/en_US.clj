@@ -83,7 +83,8 @@ the 2017-2019 term.
 Your vote, as a member of Agile Alliance Brazil, is very important for this process. If you already cast
 your vote, no further action is needed. Thank you very much. If you have not cast your vote, learn a bit more
 about each candidate below (sorted alphabetically). To vote, search your inbox for an email with subject
-'%s'. In it, you will find a unique link to place your vote securely until %s.
+'%s'. In it, you will find a unique link to place your vote securely until %s. If you encounter any problems,
+reply to this email describing your problem so we can help you.
 
 Candidates:
 
@@ -117,7 +118,8 @@ the 2017-2019 term.
 Your vote, as a member of Agile Alliance Brazil, is very important for this process. If you already cast
 your vote, no further action is needed. Thank you very much. If you have not cast your vote, learn a bit more
 about each candidate below (sorted alphabetically). To vote, search your inbox for an email with subject
-**%s**. In it, you will find a unique link to place your vote securely until **%s**.
+**%s**. In it, you will find a unique link to place your vote securely until **%s**. If you encounter any problems,
+reply to this email describing your problem so we can help you.
 
 Candidates:
 
