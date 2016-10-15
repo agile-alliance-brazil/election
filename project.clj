@@ -37,7 +37,7 @@
       [com.taoensso/tower "3.1.0-beta5"]
       [slingshot "0.12.2"]
       [clojurewerkz/quartzite "2.0.0" :exclusions [c3p0]]
-      [markdown-clj "0.9.89"]]
+      [markdown-clj "0.9.90"]]
     :plugins [[lein-environ "1.0.2"] [lein-pprint "1.1.2"]]
     :ring
       { :handler election.web/handler
