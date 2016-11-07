@@ -30,7 +30,7 @@
       [org.postgresql/postgresql "9.4.1211"]
       [com.mchange/c3p0 "0.9.5.2"]
       [honeysql "0.8.1"]
-      [clj-time "0.12.0"]
+      [clj-time "0.12.2"]
       [optimus "0.19.0"]
       [digest "1.4.5"]
       [com.draines/postal "2.0.1"]
