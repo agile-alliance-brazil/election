@@ -38,7 +38,7 @@
       [slingshot "0.12.2"]
       [clojurewerkz/quartzite "2.0.0" :exclusions [c3p0]]
       [markdown-clj "0.9.91"]]
-    :plugins [[lein-environ "1.0.2"] [lein-pprint "1.1.2"]]
+    :plugins [[lein-ring "0.12.0"] [lein-environ "1.0.2"] [lein-pprint "1.1.2"]]
     :ring
       { :handler election.web/handler
         :uberwar-name ~(str "election-with-dependencies_" version ".war")}

@@ -1,0 +1,28 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/election
+    docker:
+      - image: circleci/clojure:lein-2.7.1
+    environment:
+      LEIN_ROOT: nbd
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - restore_cache:
+          key: election-{{ checksum "project.clj" }}
+      - run: lein deps
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: election-{{ checksum "project.clj" }}
+      - run: lein do test, uberjar
+      - store_artifacts:
+          path: target/election.jar
+          destination: uberjar
+      - deploy:
+        deployment:
+          staging:
+            branch: master
+            heroku:
+              appname: foo-bar-123
