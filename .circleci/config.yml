@@ -20,9 +20,3 @@ jobs:
       - store_artifacts:
           path: target/election.jar
           destination: uberjar
-      - deploy:
-        deployment:
-          staging:
-            branch: master
-            heroku:
-              appname: foo-bar-123
