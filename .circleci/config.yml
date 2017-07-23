@@ -20,3 +20,14 @@ jobs:
       - store_artifacts:
           path: target/election.jar
           destination: uberjar
+      - run: bash .circleci/setup-heroku.sh
+      - add_ssh_keys:
+          fingerprints:
+            - "cd:77:1c:66:c6:d8:d1:6c:dd:b0:06:a7:ea:53:dd:ce"
+      - deploy:
+          name: Deploy Master to Heroku
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              git push heroku master
+              heroku restart
+            fi
