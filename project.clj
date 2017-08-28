@@ -14,7 +14,7 @@
       [org.clojure/data.json "0.2.6"]
       [org.clojure/data.csv "0.1.4"]
       [org.clojure/tools.logging "0.4.0"]
-      [javax.servlet/javax.servlet-api "3.1.0"]
+      [javax.servlet/javax.servlet-api "4.0.0"]
       [compojure "1.6.0"]
       [ring/ring-defaults "0.3.1"]
       [ring/ring-core "1.6.2"]
