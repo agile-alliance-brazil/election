@@ -52,7 +52,7 @@
           [lein-cloverage "1.0.6"]
           [lein-dotenv "RELEASE"]]
         :resource-paths ["resources" "test/resources/"]
-        :dependencies [[pjstadig/humane-test-output "0.8.2"]]
+        :dependencies [[pjstadig/humane-test-output "0.8.3"]]
         :env {:test "true" :clj-env "test"}
         :injections [(require 'pjstadig.humane-test-output)
           (pjstadig.humane-test-output/activate!)]}
