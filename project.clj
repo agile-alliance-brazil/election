@@ -31,7 +31,7 @@
       [com.mchange/c3p0 "0.9.5.2"]
       [honeysql "0.9.1"]
       [clj-time "0.14.0"]
-      [optimus "0.20.0"]
+      [optimus "0.20.1"]
       [digest "1.4.6"]
       [com.draines/postal "2.0.2"]
       [com.taoensso/tower "3.1.0-beta5"]
