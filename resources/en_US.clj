@@ -14,6 +14,16 @@
     :election-created "Election created successfully!"
     :create-election-failed "Election creation failed. Try again"
   }
+  :candidates
+  {
+    :add "Add a new candidate"
+    :fullname "Full name"
+    :email "E-mail"
+    :twitter "Twitter"
+    :motivation "Motivation"
+    :region "Region"
+    :minibio "Mini-bio"
+  }
   :votes
   {
     :register "Register voters"

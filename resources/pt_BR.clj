@@ -14,6 +14,16 @@
     :election-created "Eleição criada com sucesso!"
     :create-election-failed "Criação da eleição falhou. Tente novamente"
   }
+  :candidates
+  {
+    :add "Adicionar novo candidato"
+    :fullname "Nome completo"
+    :email "E-mail"
+    :twitter "Twitter"
+    :motivation "Motivação"
+    :region "Região"
+    :minibio "Minibio"
+  }
   :votes
   {
     :register "Inscrever eleitores"

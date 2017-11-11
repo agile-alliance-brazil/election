@@ -35,3 +35,18 @@
     (j/execute! (db-config/dbspec) command)
   )
 )
+
+(defn register-candidate [election-id candidate]
+  (first
+    (j/insert!
+      (db-config/dbspec)
+      :candidates
+      (merge
+        candidate
+        {
+          :electionid election-id
+        }
+      )
+    )
+  )
+)

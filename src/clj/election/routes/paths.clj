@@ -58,6 +58,12 @@
 (def register-election-voters-matcher "/:election-id{[0-9]+}/voters")
 (defn register-election-voters-path [election-id] (path-for register-election-voters-matcher {:election-id election-id}))
 
+(def new-election-candidate-matcher "/:election-id{[0-9]+}/candidates/new")
+(defn new-election-candidate-path [election-id] (path-for new-election-candidate-matcher {:election-id election-id}))
+
+(def register-election-candidate-matcher "/:election-id{[0-9]+}/candidates")
+(defn register-election-candidate-path [election-id] (path-for register-election-candidate-matcher {:election-id election-id}))
+
 (def new-election-matcher "/new")
 
 (defn url-for [p]

@@ -74,6 +74,9 @@
           (if (auth/can-register-voters? election user)
             [:li (link-to (paths/new-election-voters-path election-id) (i18n/t request :votes/register))]
           )
+          (if (auth/can-add-candidates? election user)
+            [:li (link-to (paths/new-election-candidate-path election-id) (i18n/t request :candidates/add))]
+          )
         ]
         (if (and (t/before? (t/now) (c/from-sql-time end-date)) (< votes-received expected-votes))
           [:h3 (i18n/t request :votes/partial-results)]
@@ -156,6 +159,21 @@
 
 (defn- input-with-label [label-text {input-name :name :as input-options}]
   (element-with-label label-text [:input input-options])
+)
+
+(defn new-candidate-view [request {election-id :id :as election}]
+  (layout/election-layout (assoc request :election election)
+    (form/form-to [:put (paths/register-election-candidate-path election-id)]
+      (anti-forgery-field)
+      (input-with-label (i18n/t request :candidates/fullname) {:type "text" :name "candidate[fullname]" :id "candidate[fullname]" :required true :autofocus true})
+      (input-with-label (i18n/t request :candidates/email) {:type "email" :name "candidate[email]" :id "candidate[email]" :required true})
+      (input-with-label (i18n/t request :candidates/twitter) {:type "text" :name "candidate[twitterhandle]" :id "candidate[twitterhandle]"})
+      (element-with-label (i18n/t request :candidates/motivation) (form/text-area {:required true} "candidate[motivation]"))
+      (input-with-label (i18n/t request :candidates/region) {:type "text" :name "candidate[region]" :id "candidate[region]"})
+      (element-with-label (i18n/t request :candidates/minibio) (form/text-area {} "candidate[minibio]"))
+      (form/submit-button (i18n/t request :candidates/add))
+    )
+  )
 )
 
 (defn new-view [request]

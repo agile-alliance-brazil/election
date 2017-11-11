@@ -10,6 +10,7 @@
     [election.routes.paths :as paths]
     [election.i18n.messages :as i18n]
     [ring.util.response :as response]
+    [election.db.candidates :as candidates]
   )
 )
 
@@ -74,6 +75,53 @@
   )
 )
 
+(defn- cleanup-parameters [valid-params data]
+  (into {}
+    (filter
+      (fn [[k v]] contains? valid-params k)
+      data
+    )
+  )
+)
+
+
+(defn new-candidate [{{election-id :election-id} :params {user :user} :session :as request}]
+  (let [election (db/election (Integer. election-id))]
+    (if (auth/can-add-candidates? election user)
+      (view/new-candidate-view request election)
+      (->
+        (response/redirect (paths/election-path election-id))
+        (assoc :flash {:type :error :message (i18n/t request :forbidden)})
+      )
+    )
+  )
+)
+
+(def valid-candidate-params [:fullname :fullname :motivation :email :minibio :region :twitterhandle])
+
+(defn register-candidate [{{election-id :election-id candidate-data :candidate} :params {user :user} :session :as request}]
+  (let [election (db/election (Integer. election-id))
+    response (response/redirect (paths/election-path election-id))]
+    (if (auth/can-add-candidates? election user)
+      (let [
+          safe-data (cleanup-parameters valid-candidate-params candidate-data)
+          new-candidate (candidates/register-candidate (:id election) safe-data)
+        ]
+        (if (nil? (:id new-candidate))
+          (-> (view/new-view request)
+            ; TODO: Detail potential errors
+            (assoc :flash {:type :error :message (i18n/t request :candidates/create-candidate-failed)})
+          )
+          (-> response
+            (assoc :flash {:type :notice :message (i18n/t request :elections/election-created)})
+          )
+        )
+      )
+      (assoc response :flash {:type :error :message (i18n/t request :forbidden)})
+    )
+  )
+)
+
 (defn new-election [{{user :user :as session} :session :as request}]
   (log/info "Rendering new election for " session)
   (if (auth/can-create-election? user)
@@ -81,15 +129,6 @@
     (->
       (response/redirect (paths/home-path))
       (assoc :flash {:type :error :message (i18n/t request :forbidden)})
-    )
-  )
-)
-
-(defn- cleanup-parameters [valid-params data]
-  (into {}
-    (filter
-      (fn [[k v]] contains? valid-params k)
-      data
     )
   )
 )
