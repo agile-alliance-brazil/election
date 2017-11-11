@@ -41,7 +41,7 @@
   (layout/election-layout (assoc request :election election)
     [:div
       [:p.instructions (i18n/t request :votes/instructions candidatestoelect)]
-      (form-to {:class "vote"} [:post (paths/place-vote-path id token)]
+      (form-to {:class "vote" :data-vote-count candidatestovoteon} [:post (paths/place-vote-path id token)]
         (anti-forgery-field)
         [:ul.candidates
           (list* (map render-candidate (shuffle candidates)))

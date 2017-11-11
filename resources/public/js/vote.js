@@ -1,5 +1,6 @@
 (function($) {
-  var votes = [1, 2, 3];
+  var maxVotes = 0;
+  var votes = [];
 
   var voteOn = function(candidateId) {
     var currentlyUnvoted = votes.filter(function(current, index) {
@@ -25,14 +26,20 @@
   };
 
   var checkSubmition = function() {
-    $('form.vote input[type="submit"]').prop('disabled', $('li.candidate.selected').size() !== 3);
+    $('form.vote input[type="submit"]').prop('disabled', $('li.candidate.selected').size() < maxVotes);
   };
 
   var toggleVote = function() {
     var target = $(this);
     var unselecting = target.hasClass('selected');
+
+    if (!unselecting || maxVotes == 1) {
+      var previousVote = $('#vote-1').val();
+      unvoteOn(previousVote);
+    }
+
     var selectedCandidates = $('li.candidate.selected').size();
-    if (!unselecting && selectedCandidates < 3) {
+    if (!unselecting && selectedCandidates < maxVotes) {
       voteOn(target.data('candidate-id'));
     } else if (unselecting) {
       unvoteOn(target.data('candidate-id'));
@@ -50,15 +57,19 @@
 
   $(document).ready(function() {
     $('.vote li.candidate').click(toggleVote);
-    var votes = $('.vote').filter(function(current, index) {
+    var existingVotes = $('.vote').filter(function(current, index) {
       return $('#vote-'+current).val() !== "";
     });
     $('.vote li.candidate').removeClass('selected');
-    votes.each(function(index, current) {
+    existingVotes.each(function(index, current) {
       var vote = $(current).val();
       $('.vote li.candidate#candidate-' + vote).addClass('selected');
     });
     checkSubmition();
+    maxVotes = parseInt($('form.vote').data('vote-count'), 10);
+    for (var index = 0; index < maxVotes; index++) {
+      votes.push(index + 1);
+    }
     $('form.vote input[type="submit"]').click(confirmVote);
   });
 })(jQuery);
