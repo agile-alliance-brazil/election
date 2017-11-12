@@ -56,7 +56,6 @@
       fullname
       motivation
       region
-      minibio
       (str "https://twitter.com/" twitterhandle)
     )
   )
@@ -70,7 +69,6 @@
       fullname
       (md/md-to-html-string motivation)
       region
-      (md/md-to-html-string minibio)
       (str "twitter.com/" twitterhandle)
       (str "https://twitter.com/" twitterhandle)
     )
@@ -84,7 +82,6 @@
       :mailer/reminder/text
       voter-name
       (count candidates)
-      candidatestoelect
       (i18n/t {:locale locale} :mailer/token/subject name)
       (format-date locale enddate)
       (clojure.string/join
@@ -102,7 +99,6 @@
       :mailer/reminder/html
       voter-name
       (count candidates)
-      candidatestoelect
       (i18n/t {:locale locale} :mailer/token/subject name)
       (format-date locale enddate)
       (clojure.string/join

@@ -62,11 +62,11 @@
       :subject "You're invited to vote in %s!"
       :text! "Hello %s,
 
-As an attendee of Agiel Brazil 2014 and/or 2015, you are invited to vote in the election of
-three board members for Agile Alliance Brazil for the 2017-2019 term.
+As an attendee of Agile Brazil 2015, 2016 or 2017, you are invited to vote in the election of
+one board members for Agile Alliance Brazil for the 2018-2020 term.
 
 To vote, access the link below. You will be able to vote only once and you cannot edit your vote after casting it.
-You have to vote in three candidates and must cast your vote until %s.
+You have to vote in one candidate and must cast your vote until %s.
 
 %s
 
@@ -75,10 +75,10 @@ Agile Alliance Brazil"
       :html* "Hello %s,
 
 
-As an attendee of Agiel Brazil 2014 and/or 2015, you are invited to vote in the election of
-three board members for Agile Alliance Brazil for the 2017-2019 term.
+As an attendee of Agile Brazil 2014, 2015 or 2016, you are invited to vote in the election of
+one board members for Agile Alliance Brazil for the 2018-2020 term.
 To vote, access the link below. You will be able to vote only once and you cannot edit your vote after casting it.
-You have to vote in three candidates and must cast your vote until %s.
+You have to vote in one candidates and must cast your vote until %s.
 
 [%s](%s)
 
@@ -91,9 +91,9 @@ Agile Alliance Brazil"
       :subject "The election %s is ending soon. Please remember to place your vote."
       :text! "Hello %s,
 
-Agile Alliance Brazil is in its first board renewal cycle. Through an election with voters from the
-Brazilian members of Agile Alliance, we will select, among %d candidates, the %d new board members for
-the 2017-2019 term.
+Agile Alliance Brazil is in another board renewal cycle. Through an election with voters from the
+Brazilian members of Agile Alliance, we will select, among %d candidates, the %d new board member(s) for
+the 2018-2020 term.
 
 Your vote, as a member of Agile Alliance Brazil, is very important for this process. If you already cast
 your vote, no further action is needed. Thank you very much. If you have not cast your vote, learn a bit more
@@ -110,15 +110,11 @@ Sincerely,
 Agile Alliance Brazil"
       :candidate-partial-text! "#%s
 
-Describe a little bit about your reasons to be part of the Agile Alliance Brazil board between 2017 and 2019.
+Describe a little bit about your reasons to be part of the Agile Alliance Brazil board between 2018 and 2020.
 
 %s
 
 Region: %s
-
-Mini-Bio:
-
-%s
 
 Social Network: %s
 
@@ -126,9 +122,9 @@ Social Network: %s
 "
       :html* "Hello %s,
 
-Agile Alliance Brazil is in its first board renewal cycle. Through an election with voters from the
-Brazilian members of Agile Alliance, we will select, among %d candidates, the %d new board members for
-the 2017-2019 term.
+Agile Alliance Brazil is in another board renewal cycle. Through an election with voters from the
+Brazilian members of Agile Alliance, we will select, among %d candidates, the %d new board member(s) for
+the 2018-2020 term.
 
 Your vote, as a member of Agile Alliance Brazil, is very important for this process. If you already cast
 your vote, no further action is needed. Thank you very much. If you have not cast your vote, learn a bit more
@@ -145,15 +141,11 @@ Sincerely,
 Agile Alliance Brazil"
       :candidate-partial-html* "#%s
 
-**Describe a little bit about your reasons to be part of the Agile Alliance Brazil board between 2017 and 2019.**
+**Describe a little bit about your reasons to be part of the Agile Alliance Brazil board between 2018 and 2020.**
 
 %s
 
 **Region:** %s
-
-**Mini-Bio:**
-
-%s
 
 **Social Network:** [%s](%s)
 
