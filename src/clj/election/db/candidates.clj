@@ -36,6 +36,19 @@
   )
 )
 
+(defn candidate-for [candidate-id]
+  (let [
+    conditions (->
+      (h/select :*)
+      (h/from :candidates)
+      (h/where [:= :id candidate-id]))
+      query (sql/format conditions)
+    ]
+    (log/debug "Querying DB for candidate with " query)
+    (first (j/query (db-config/dbspec) query))
+  )
+)
+
 (defn register-candidate [election-id candidate]
   (first
     (j/insert!
@@ -47,6 +60,17 @@
           :electionid election-id
         }
       )
+    )
+  )
+)
+
+(defn update-candidate [candidate-id candidate]
+  (first
+    (j/update!
+      (db-config/dbspec)
+      :candidates
+      candidate
+      ["id = ?", candidate-id]
     )
   )
 )

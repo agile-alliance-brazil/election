@@ -17,6 +17,11 @@
   :candidates
   {
     :add "Adicionar novo candidato"
+    :added "Candidato adicionado"
+    :add-failed "Erro ao adicionar candidato"
+    :edit "Editar detalhes"
+    :update "Atualizar"
+    :updated "Candidato atualizado"
     :fullname "Nome completo"
     :email "E-mail"
     :twitter "Twitter"

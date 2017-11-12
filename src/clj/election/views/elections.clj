@@ -104,6 +104,9 @@
               [:h4.votecount (:votecount c)
                 [:span (i18n/t request :votes/count) ]
               ]
+              (if (auth/can-edit-candidate? election user c)
+                (link-to (paths/edit-election-candidate-path election-id (:id c)) (i18n/t request :candidates/edit (:fullname c)))
+              )
             )))
             candidates
           )
@@ -163,7 +166,7 @@
 
 (defn new-candidate-view [request {election-id :id :as election}]
   (layout/election-layout (assoc request :election election)
-    (form/form-to [:put (paths/register-election-candidate-path election-id)]
+    (form/form-to [:post (paths/register-election-candidate-path election-id)]
       (anti-forgery-field)
       (input-with-label (i18n/t request :candidates/fullname) {:type "text" :name "candidate[fullname]" :id "candidate[fullname]" :required true :autofocus true})
       (input-with-label (i18n/t request :candidates/email) {:type "email" :name "candidate[email]" :id "candidate[email]" :required true})
@@ -172,6 +175,21 @@
       (input-with-label (i18n/t request :candidates/region) {:type "text" :name "candidate[region]" :id "candidate[region]"})
       (element-with-label (i18n/t request :candidates/minibio) (form/text-area {} "candidate[minibio]"))
       (form/submit-button (i18n/t request :candidates/add))
+    )
+  )
+)
+
+(defn edit-candidate-view [request {election-id :id :as election} {candidate-id :id :as candidate}]
+  (layout/election-layout (assoc request :election election)
+    (form/form-to [:put (paths/election-candidate-path election-id candidate-id)]
+      (anti-forgery-field)
+      (input-with-label (i18n/t request :candidates/fullname) {:type "text" :name "candidate[fullname]" :id "candidate[fullname]" :required true :autofocus true :value (:fullname candidate)})
+      (input-with-label (i18n/t request :candidates/email) {:type "email" :name "candidate[email]" :id "candidate[email]" :required true :value (:email candidate)})
+      (input-with-label (i18n/t request :candidates/twitter) {:type "text" :name "candidate[twitterhandle]" :id "candidate[twitterhandle]" :value (:twitterhandle candidate)})
+      (element-with-label (i18n/t request :candidates/motivation) (form/text-area {:required true} "candidate[motivation]" (:motivation candidate)))
+      (input-with-label (i18n/t request :candidates/region) {:type "text" :name "candidate[region]" :id "candidate[region]" :value (:region candidate)})
+      (element-with-label (i18n/t request :candidates/minibio) (form/text-area "candidate[minibio]" (:minibio candidate)))
+      (form/submit-button (i18n/t request :candidates/update))
     )
   )
 )

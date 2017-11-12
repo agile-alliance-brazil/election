@@ -17,6 +17,11 @@
   :candidates
   {
     :add "Add a new candidate"
+    :added "Candidate added"
+    :add-failed "Error adding candidate"
+    :edit "Edit details"
+    :update "Atualizar"
+    :updated "Candidate updated"
     :fullname "Full name"
     :email "E-mail"
     :twitter "Twitter"

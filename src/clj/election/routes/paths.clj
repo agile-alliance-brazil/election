@@ -37,7 +37,7 @@
 (def election-matcher "/:election-id{[0-9]+}")
 (defn election-path [election-id] (path-for election-matcher {:election-id election-id}))
 
-(def place-vote-matcher "/:election-id{[0-9]+}/:token")
+(def place-vote-matcher "/:election-id{[0-9]+}/vote/:token")
 (defn place-vote-path [election-id token] (path-for place-vote-matcher {:election-id election-id :token token}))
 
 (def status-matcher "/status")
@@ -63,6 +63,12 @@
 
 (def register-election-candidate-matcher "/:election-id{[0-9]+}/candidates")
 (defn register-election-candidate-path [election-id] (path-for register-election-candidate-matcher {:election-id election-id}))
+
+(def edit-election-candidate-matcher "/:election-id{[0-9]+}/candidates/:candidate-id{[0-9]+}/edit")
+(defn edit-election-candidate-path [election-id candidate-id] (path-for edit-election-candidate-matcher {:election-id election-id :candidate-id candidate-id}))
+
+(def election-candidate-matcher "/:election-id{[0-9]+}/candidates/:candidate-id{[0-9]+}")
+(defn election-candidate-path [election-id candidate-id] (path-for election-candidate-matcher {:election-id election-id :candidate-id candidate-id}))
 
 (def new-election-matcher "/new")
 

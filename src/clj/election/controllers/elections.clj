@@ -84,7 +84,6 @@
   )
 )
 
-
 (defn new-candidate [{{election-id :election-id} :params {user :user} :session :as request}]
   (let [election (db/election (Integer. election-id))]
     (if (auth/can-add-candidates? election user)
@@ -108,13 +107,45 @@
           new-candidate (candidates/register-candidate (:id election) safe-data)
         ]
         (if (nil? (:id new-candidate))
-          (-> (view/new-view request)
+          (-> (view/new-candidate-view request election)
             ; TODO: Detail potential errors
-            (assoc :flash {:type :error :message (i18n/t request :candidates/create-candidate-failed)})
+            (assoc :flash {:type :error :message (i18n/t request :candidates/create-failed)})
           )
           (-> response
-            (assoc :flash {:type :notice :message (i18n/t request :elections/election-created)})
+            (assoc :flash {:type :notice :message (i18n/t request :candidates/added)})
           )
+        )
+      )
+      (assoc response :flash {:type :error :message (i18n/t request :forbidden)})
+    )
+  )
+)
+
+(defn edit-candidate [{{election-id :election-id candidate-id :candidate-id} :params {user :user} :session :as request}]
+  (let [election (db/election (Integer. election-id))
+      candidate (candidates/candidate-for (Integer. candidate-id))
+    ]
+    (if (auth/can-edit-candidate? election user candidate)
+      (view/edit-candidate-view request election candidate)
+      (->
+        (response/redirect (paths/election-path election-id))
+        (assoc :flash {:type :error :message (i18n/t request :forbidden)})
+      )
+    )
+  )
+)
+
+(defn update-candidate [{{election-id :election-id candidate-id :candidate-id candidate-data :candidate} :params {user :user} :session :as request}]
+  (let [election (db/election (Integer. election-id))
+    candidate (candidates/candidate-for (Integer. candidate-id))
+    response (response/redirect (paths/election-path election-id))]
+    (if (auth/can-edit-candidate? election user candidate)
+      (let [
+          safe-data (cleanup-parameters valid-candidate-params candidate-data)
+          updated-candidate (candidates/update-candidate (:id candidate) safe-data)
+        ]
+        (-> response
+          (assoc :flash {:type :notice :message (i18n/t request :candidates/updated)})
         )
       )
       (assoc response :flash {:type :error :message (i18n/t request :forbidden)})
