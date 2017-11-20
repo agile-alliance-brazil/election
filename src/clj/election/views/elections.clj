@@ -85,14 +85,14 @@
         [:table.vote-count.summary
           [:thead
             [:tr
-              [:th (i18n/t request :votes/voter-count)]
+              (if (not= voter-count expected-votes) [:th (i18n/t request :votes/voter-count)])
               [:th (i18n/t request :votes/votes-count)]
               [:th (i18n/t request :votes/casted-votes-count)]
             ]
           ]
           [:tbody
             [:tr
-              [:td voter-count]
+              (if (not= voter-count expected-votes) [:td voter-count])
               [:td expected-votes]
               [:td votes-received]
             ]
