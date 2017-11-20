@@ -75,7 +75,7 @@ Agile Alliance Brazil"
       :html* "Hello %s,
 
 
-As an attendee of Agile Brazil 2014, 2015 or 2016, you are invited to vote in the election of
+As an attendee of Agile Brazil 2015, 2016 or 2017, you are invited to vote in the election of
 one board members for Agile Alliance Brazil for the 2018-2020 term.
 To vote, access the link below. You will be able to vote only once and you cannot edit your vote after casting it.
 You have to vote in one candidates and must cast your vote until %s.

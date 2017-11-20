@@ -75,7 +75,7 @@ Agile Alliance Brazil"
       :html* "Olá %s,
 
 
-Como participante do Agile Brazil 2015, 2016 ou 2016, você está habilitado a votar para a eleição de
+Como participante do Agile Brazil 2015, 2016 ou 2017, você está habilitado a votar para a eleição de
 um membros ao board de diretoria da Agile Alliance Brazil para o período de 2018-2020.
 
 
