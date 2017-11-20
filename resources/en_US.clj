@@ -36,7 +36,7 @@
     :final-results "Final results"
     :count "Votes"
     :add-voters "Add voter list"
-    :instructions "Please select %d candidates towards which you will cast your vote and press the 'Place Vote' button."
+    :instructions "Please select %d candidate(s) towards which you will cast your vote and press the 'Place Vote' button."
     :place "Place Vote"
     :used-token "Token already used"
     :not-accepting-votes "Not currently in voting period"

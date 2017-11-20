@@ -36,7 +36,7 @@
     :final-results "Resultados finais"
     :count "Votos"
     :add-voters "Adicionar lista de eleitores"
-    :instructions "Por favor, selecione %d candidato(s) a favor do(s) qual(is) seu voto será contabilizado e pressione o botão 'Votar'."
+    :instructions "Por favor, selecione %d candidato(a) a favor do(a) qual seu voto será contabilizado e pressione o botão 'Votar'."
     :place "Votar"
     :used-token "Seu token já foi utilizado"
     :not-accepting-votes "Essa eleição não está em período de votação"
