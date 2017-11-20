@@ -101,11 +101,11 @@
         [:ul.candidates
           (map
             (fn [candidate] (votes/render-candidate-base candidate (fn [c]
-              [:h4.votecount (:votecount c)
-                [:span (i18n/t request :votes/count) ]
-              ]
               (if (auth/can-edit-candidate? election user c)
                 (link-to (paths/edit-election-candidate-path election-id (:id c)) (i18n/t request :candidates/edit (:fullname c)))
+                [:h4.votecount (:votecount c)
+                  [:span (i18n/t request :votes/count) ]
+                ]
               )
             )))
             candidates
