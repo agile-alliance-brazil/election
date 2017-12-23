@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
+# set -x # Uncomment to debug
 
 DB_NAME=election
 
