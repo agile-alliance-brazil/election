@@ -71,7 +71,12 @@
           (wrap-routes anti-forgery/wrap-anti-forgery)
           (wrap-locale-in-session)
           (tower-middleware/wrap-tower i18n/my-tconfig {:fallback-locale i18n/preferred-language :locale-selector i18n/select-locale})
-          (wrap-defaults (assoc-in site-defaults [:security :anti-forgery] false))
+          (wrap-defaults
+            (-> site-defaults
+              (assoc-in [:security :anti-forgery] false)
+              (assoc-in [:session :cookie-attrs :same-site] :lax)
+            )
+          )
       )
     )
     (wrap-defaults api-defaults)
