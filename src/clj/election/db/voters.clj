@@ -44,12 +44,12 @@
     (let [emails (map second voter-list)
       preregistered-emails-query (-> (h/select :email) (h/from :voters) (h/where [:and [:= :electionid election-id] [:in :email emails]]) sql/format)
       preregistered-emails-results (j/query (db-config/dbspec) preregistered-emails-query)
-      preregistered-emails (map #(:email %) (j/query (db-config/dbspec) preregistered-emails-query) [])
+      preregistered-emails (map #(:email %) preregistered-emails-results)
       known-email (fn [email] (some #(= email %) preregistered-emails))
       voters-to-add (filter (fn [voter-info] (not (known-email (second voter-info)))) voter-list)
       adding-count (count voters-to-add)
       insert-query (-> (h/insert-into :voters) (h/values (map (fn [v] {:electionid election-id :fullname (first v) :email (second v)}) voters-to-add)) sql/format)]
-      (println "Registering " voters-to-add " after excluding " preregistered-emails " from " emails " based on results of " preregistered-emails-query)
+      (println "Registering " voters-to-add " after excluding " preregistered-emails-results " from " emails " based on results of " preregistered-emails-query)
       (if (< 0 adding-count)
         (do
           (log/debug "Inserting new voters with " insert-query)
