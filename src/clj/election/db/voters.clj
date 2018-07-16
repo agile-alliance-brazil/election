@@ -49,7 +49,7 @@
       voters-to-add (filter (fn [voter-info] (not (known-email (second voter-info)))) voter-list)
       adding-count (count voters-to-add)
       insert-query (-> (h/insert-into :voters) (h/values (map (fn [v] {:electionid election-id :fullname (first v) :email (second v)}) voters-to-add)) sql/format)]
-      (println "Registering " voters-to-add " after excluding " preregistered-emails " from " emails)
+      (println "Registering " voters-to-add " after excluding " preregistered-emails " from " emails " based on results of " preregistered-emails-query)
       (if (< 0 adding-count)
         (do
           (log/debug "Inserting new voters with " insert-query)
