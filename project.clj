@@ -21,7 +21,7 @@
       [ring/ring-devel "1.6.3"]
       [cheshire "5.8.0"]
       [ring/ring-json "0.4.0" :exclusions [cheshire]]
-      [ring.middleware.logger "0.5.0"]
+      [lambdaisland/ring.middleware.logger "0.5.1"]
       [http-kit "2.3.0"]
       [environ "1.1.0"]
       [clj-http "3.9.1"]
