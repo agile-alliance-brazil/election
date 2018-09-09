@@ -1,5 +1,22 @@
 version: 2
 jobs:
+  test:
+    working_directory: ~/election
+    docker:
+      - image: circleci/clojure:lein-2.7.1
+    environment:
+      LEIN_ROOT: nbd
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - restore_cache:
+          key: election-{{ checksum "project.clj" }}
+      - run: lein deps
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: election-{{ checksum "project.clj" }}
+      - run: lein do test
   build:
     working_directory: ~/election
     docker:
@@ -16,18 +33,35 @@ jobs:
           paths:
             - ~/.m2
           key: election-{{ checksum "project.clj" }}
-      - run: lein do test, uberjar
+      - run: lein do uberjar
       - store_artifacts:
           path: target/election.jar
           destination: uberjar
-      - run: bash .circleci/setup-heroku.sh
-      - add_ssh_keys:
-          fingerprints:
-            - "cd:77:1c:66:c6:d8:d1:6c:dd:b0:06:a7:ea:53:dd:ce"
+  deploy:
+    docker:
+    - image: circleci/clojure:lein-2.7.1
+    steps:
+    - checkout
+    - run: bash .circleci/setup-heroku.sh
+    - add_ssh_keys:
+        fingerprints:
+          - "cd:77:1c:66:c6:d8:d1:6c:dd:b0:06:a7:ea:53:dd:ce"
+    - deploy:
+        name: Deploy Master to Heroku
+        command: |
+          git push heroku master
+          heroku restart
+
+workflows:
+  version: 2
+  test-and-deploy:
+    jobs:
+      - build
+      - test
       - deploy:
-          name: Deploy Master to Heroku
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              git push heroku master
-              heroku restart
-            fi
+          filters:
+            branches:
+              only: master
+          requires:
+            - test
+            - build
