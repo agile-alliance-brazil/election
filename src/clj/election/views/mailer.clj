@@ -56,7 +56,14 @@
       fullname
       motivation
       region
-      (str "https://twitter.com/" twitterhandle)
+      (if (empty? twitterhandle)
+        ""
+        (i18n/t
+          {:locale locale}
+          :mailer/reminder/candidate-social-text
+          (str "https://twitter.com/" twitterhandle)
+        )
+      )
     )
   )
 )
@@ -69,8 +76,15 @@
       fullname
       (md/md-to-html-string motivation)
       region
-      (str "twitter.com/" twitterhandle)
-      (str "https://twitter.com/" twitterhandle)
+      (if (empty? twitterhandle)
+        ""
+        (i18n/t
+          {:locale locale}
+          :mailer/reminder/candidate-social-html
+          (str "twitter.com/" twitterhandle)
+          (str "https://twitter.com/" twitterhandle)
+        )
+      )
     )
   )
 )

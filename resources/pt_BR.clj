@@ -62,8 +62,8 @@
       :subject "Convite para votar na eleição de membros ao board de diretores da %s"
       :text! "Olá %s,
 
-Como participante do Agile Brazil 2015, 2016 ou 2017, você está habilitado a votar para a eleição de um membro
-ao board de diretoria da Agile Alliance Brazil para o período de 2019-2021.
+Como participante do Agile Brazil 2016, 2017 ou 2018, você está habilitado a votar para a eleição de um membro
+ao board de diretoria da Agile Alliance Brazil para o período de 2020-2022.
 
 Para votar, acesse o link abaixo. Você poderá votar apenas uma vez e não poderá editar seu voto após o envio.
 Você deve votar em um(a) candidato(a) e tem até %s para submeter seu voto.
@@ -75,8 +75,8 @@ Agile Alliance Brazil"
       :html* "Olá %s,
 
 
-Como participante do Agile Brazil 2015, 2016 ou 2017, você está habilitado a votar para a eleição de
-um membros ao board de diretoria da Agile Alliance Brazil para o período de 2019-2021.
+Como participante do Agile Brazil 2016, 2017 ou 2018, você está habilitado a votar para a eleição de
+um membros ao board de diretoria da Agile Alliance Brazil para o período de 2020-2022.
 
 
 Para votar, acesse o link abaixo. Você poderá votar apenas uma vez e não poderá editar seu voto após o envio.
@@ -96,7 +96,7 @@ Agile Alliance Brazil"
 
 A Agile Alliance Brazil está em mais um ciclo de renovação do board de diretoria da associação.
 Por meio de uma eleição entre o corpo de membros brasileiros da Agile Alliance, selecionaremos entre
-%d candidatos(as), o(a) novo(a) integrante do conselho de administração para o período de 2019-2021.
+%d candidatos(as), o(a) novo(a) integrante do conselho de administração para o período de 2020-2022.
 
 Seu voto, como membro(a) da Agile Alliance Brazil, é muito importante para esse processo. Caso já
 tenha votado, não precisa fazer mais nada. Muito obrigado. Se ainda não tiver votado, conheça
@@ -114,21 +114,24 @@ Atenciosamente,
 Agile Alliance Brazil"
       :candidate-partial-text! "#%s
 
-Descreva um pouco sobre a sua motivação para participar do board da Agile Alliance Brazil no período 2019-2021.
+Descreva um pouco sobre a sua motivação para participar do board da Agile Alliance Brazil no período 2020-2022.
 
 %s
 
 Região: %s
 
-Rede Social: %s
+%s
 
 ---
+"
+      :candidate-social-text! "
+Rede Social: %s
 "
       :html* "Olá %s,
 
 A Agile Alliance Brazil está em mais um ciclo de renovação do board de diretoria da associação.
 Por meio de uma eleição entre o corpo de membros brasileiros da Agile Alliance, selecionaremos entre
-%d candidatos(as), o(a) novo(a) integrantes do conselho de administração para o período de 2019-2021.
+%d candidatos(as), o(a) novo(a) integrantes do conselho de administração para o período de 2020-2022.
 
 Seu voto, como membro(a) da Agile Alliance Brazil, é muito importante para esse processo. Caso já
 tenha votado, não precisa fazer mais nada. Muito obrigado. Se ainda não tiver votado, conheça
@@ -146,15 +149,18 @@ Atenciosamente,
 Agile Alliance Brazil"
       :candidate-partial-html* "#%s
 
-**Descreva um pouco sobre a sua motivação para participar do board da Agile Alliance Brazil no período 2019-2021.**
+**Descreva um pouco sobre a sua motivação para participar do board da Agile Alliance Brazil no período 2020-2022.**
 
 %s
 
 **Região:** %s
 
-**Rede Social:** [%s](%s)
+%s
 
 ---
+"
+      :candidate-social-html* "
+**Rede Social:** [%s](%s)
 "
     }
   }
