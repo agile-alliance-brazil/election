@@ -2,10 +2,7 @@
 set -e
 
 git remote add heroku https://git.heroku.com/aab-election.git
-wget https://cli-assets.heroku.com/branches/stable/heroku-linux-amd64.tar.gz
-mkdir -p /usr/local/lib /usr/local/bin
-tar -xvzf heroku-linux-amd64.tar.gz
-./heroku/install
+curl https://cli-assets.heroku.com/install.sh | sh
 
 cat > ~/.netrc << EOF
 machine api.heroku.com
