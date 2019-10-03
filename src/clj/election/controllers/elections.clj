@@ -59,17 +59,33 @@
   )
 )
 
+; RegExp from http://emailregex.com/
+(def email-pattern #"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])")
+(def is-valid-email? [value]
+  (re-matches email-pattern value))
+(defn get-invalid-mails [voters]
+  (filter
+    (comp not is-valid-email? second)
+    voters))
+
 (defn register-voters [{{election-id :election-id {voters-file :tempfile} :voters} :params {user :user} :session :as request}]
   (let [election (db/election (Integer. election-id))
     response (response/redirect (paths/election-path election-id))]
     (if (auth/can-register-voters? election user)
       (let [voters (voters-from voters-file)
-        added-voters-count (voters/register-voters (:id election) voters)]
-        (if added-voters-count
-          (assoc response :flash {:type :notice :message (i18n/t request :elections/new-voters-registered added-voters-count)})
-          (assoc response :flash {:type :error :message (i18n/t request :elections/voter-registration-failed)})
-        )
-      )
+            invalid-voters (get-invalid-mails voters)]
+        (if (empty? invalid-voters))
+          (let [added-voters-count (voters/register-voters (:id election) voters)]
+            (if added-voters-count
+              (assoc response :flash {:type :notice :message (i18n/t request :elections/new-voters-registered added-voters-count)})
+              (assoc response :flash {:type :error :message (i18n/t request :elections/voter-registration-failed)})
+            ))
+          (assoc 
+            response 
+            :flash 
+            {
+              :type :error 
+              :message (i18n/t request :elections/invalid-voter-mails (count invalid-voters))}))
       (assoc response :flash {:type :error :message (i18n/t request :forbidden)})
     )
   )
