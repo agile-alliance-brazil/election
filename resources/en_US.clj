@@ -3,6 +3,7 @@
   {
     :not-found "No election with ID %d found."
     :new-voters-registered "%d new voter(s) registered."
+    :some-voters-registered "%d new voter(s) registered (existing: %d, invalid: %d)"
     :voter-registration-failed "Voter registration failed"
     :create "Create election"
     :name "Election name"

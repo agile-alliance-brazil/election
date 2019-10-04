@@ -3,6 +3,7 @@
   {
     :not-found "Eleição com ID %d não foi encontrada."
     :new-voters-registered "%d novo(s) eleitor(es) inscrito(s)."
+    :some-voters-registered "%d novo(s) eleitor(es) inscrito(s) (existentes: %d, inválidos: %d)"
     :voter-registration-failed "Inscrição de eleitores falhou"
     :create "Criar eleição"
     :name "Nome da eleição"
