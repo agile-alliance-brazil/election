@@ -131,17 +131,25 @@
   (let [election (db/election (Integer. election-id))
     response (response/redirect (paths/election-path election-id))]
     (if (auth/can-add-candidates? election user)
-      (let [
-          safe-data (cleanup-parameters valid-candidate-params candidate-data)
-          new-candidate (candidates/register-candidate (:id election) safe-data)
-        ]
-        (if (nil? (:id new-candidate))
-          (-> (view/new-candidate-view request election)
-            ; TODO: Detail potential errors
-            (assoc :flash {:type :error :message (i18n/t request :candidates/create-failed)})
+      (let [safe-data (cleanup-parameters valid-candidate-params candidate-data)]
+        (if (is-valid-email? (:email safe-data))
+          (let [new-candidate (candidates/register-candidate (:id election) safe-data)]
+            (if (nil? (:id new-candidate))
+              (-> (view/new-candidate-view request election)
+                ; TODO: Detail potential errors
+                (assoc :flash {:type :error :message (i18n/t request :candidates/create-failed)})
+              )
+              (-> response
+                (assoc :flash {:type :notice :message (i18n/t request :candidates/added)})
+              )
+            )
           )
-          (-> response
-            (assoc :flash {:type :notice :message (i18n/t request :candidates/added)})
+          (assoc
+            response
+            :flash {
+              :type :error
+              :message (i18n/t request :candidates/invalid-email)
+            }
           )
         )
       )
