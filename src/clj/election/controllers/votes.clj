@@ -15,10 +15,18 @@
 (defn- valid-token? [election-id token]
   (not (nil? (tokens/get-valid-token election-id token))))
 
+(defn- check-election-start [election]
+  (if (t/after? (t/now) (c/from-sql-time (:startdate election)))
+    :after
+    :before))
+(defn- check-election-end [election]
+  (if (t/before? (t/now) (c/from-sql-time (:enddate election)))
+    :before
+    :after))
 (defn- in-election-phase? [election]
   (and
-    (t/after? (t/now) (c/from-sql-time (:startdate election)))
-    (t/before? (t/now) (c/from-sql-time (:enddate election)))
+    (= :after (check-election-start election))
+    (= :before (check-election-end election))
   )
 )
 
@@ -27,9 +35,10 @@
     :type :error
     :message
     (i18n/t request
-      (if (in-election-phase? election)
-        :votes/used-token
-        :votes/not-accepting-votes
+      (cond
+        (= :before (check-election-start election)) :votes/not-started
+        (= :after (check-election-end election)) :votes/too-late
+        :else :votes/used-token
       )
     )
   }

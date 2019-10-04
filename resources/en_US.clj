@@ -40,13 +40,14 @@
     :instructions "Please select %d candidate(s) towards which you will cast your vote and press the 'Place Vote' button."
     :place "Place Vote"
     :used-token "Token already used"
-    :not-accepting-votes "Not currently in voting period"
     :recorded "Vote recorded! Thank you."
     :invalid "Invalid vote. Please ensure you selected the right amount of candidates."
     :confirm "Votes cannot be changed once cast. Are you sure you want to cast your vote?"
     :voter-count "Total voter count"
     :votes-count "Total votes to receive"
     :casted-votes-count "Total votes received"
+    :not-started "Election has not started yet."
+    :too-late "Election vote time is over."
   }
   :session
   {
