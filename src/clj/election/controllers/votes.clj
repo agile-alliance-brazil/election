@@ -30,7 +30,7 @@
   )
 )
 
-(defn- build-flash [request election token]
+(defn- build-flash-error [request election token]
   {
     :type :error
     :message
@@ -53,7 +53,7 @@
       )
       (->
         (redirect (paths/election-path (:id election)))
-        (assoc :flash (build-flash request election token))
+        (assoc :flash (build-flash-error request election token))
       )
     )
   )
