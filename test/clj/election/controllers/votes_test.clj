@@ -8,10 +8,41 @@
   )
 )
 
+(def past-date (-> (t/now) (t/minus (t/months 1)) (c/to-sql-time)))
+(def future-date (-> (t/now) (t/plus (t/months 1)) (c/to-sql-time)))
+
+(deftest check-election-start-detection
+  (let [f #'v/check-election-start]
+    (testing "detects dates past the election start"
+      (let [election {:startdate past-date}]
+        (= (f election) :after)
+      )
+    )
+    (testing "detects dates before the election start"
+      (let [election {:startdate future-date}]
+        (= (f election) :before)
+      )
+    )
+  )
+)
+
+(deftest check-election-end-detection
+  (let [f #'v/check-election-end]
+    (testing "detects dates past the election end"
+      (let [election {:enddate past-date}]
+        (= (f election) :after)
+      )
+    )
+    (testing "detects dates before the election end"
+      (let [election {:enddate future-date}]
+        (= (f election) :before)
+      )
+    )
+  )
+)
+
 (deftest check-error-flash-message
   (let [f #'v/build-flash-error
-        past-date (-> (t/now) (t/minus (t/months 2)) (c/to-sql-time))
-        future-date (-> (t/now) (t/plus (t/months 1)) (c/to-sql-time))
         request {:locale :en-US}]
     (testing "generates a message for early votes"
       (let [so-future-date (-> (t/now) (t/plus (t/years 1)) (c/to-sql-time))
