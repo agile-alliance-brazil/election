@@ -46,8 +46,8 @@
     :voter-count "Total de eleitores"
     :votes-count "Total de votos a receber"
     :casted-votes-count "Total de votos recebidos"
-    :not-started "Election has not started yet."
-    :too-late "Election vote time is over."
+    :not-started "A eleição ainda não começou."
+    :too-late "A eleição já encerrou."
   }
   :session
   {
