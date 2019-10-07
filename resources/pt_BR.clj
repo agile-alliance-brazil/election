@@ -41,13 +41,14 @@
     :instructions "Por favor, selecione %d candidato(a) a favor do(a) qual seu voto será contabilizado e pressione o botão 'Votar'."
     :place "Votar"
     :used-token "Seu token já foi utilizado"
-    :not-accepting-votes "Essa eleição não está em período de votação"
     :recorded "Voto contabilizado! Obrigado."
     :invalid "Voto inválido. Por favor, verifique que selecionou a quantidade correta de candidatos."
     :confirm "Votos não podem ser alterados uma vez que forem enviados. Você tem certeza que deseja enviar seu voto?"
     :voter-count "Total de eleitores"
     :votes-count "Total de votos a receber"
     :casted-votes-count "Total de votos recebidos"
+    :not-started "A eleição ainda não começou."
+    :too-late "A eleição já encerrou."
   }
   :session
   {
