@@ -29,6 +29,7 @@
     :motivation "Motivation"
     :region "Region"
     :minibio "Mini-bio"
+    :invalid-email "Invalid email"
   }
   :votes
   {
