@@ -4,3 +4,6 @@
 
 A simple online voting system with a limited amount of uniquely identified voters. This is being used for the election of the Agile Alliance Brazil board members. Only Agile Alliance Brazil members are allowed to vote within a specified timeframe.
 
+## Developing
+
+To set up your environment, simply run `./setup.sh` from this folder.

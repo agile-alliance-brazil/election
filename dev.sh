@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 set -e
+# set -x # Uncomment to debug
 
 MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-cd ${MY_DIR}
+cd "${MY_DIR}"
 
-${MY_DIR}/setup.sh
+"${MY_DIR}/setup.sh"
 
 ps xau | grep livereload | grep -v grep | awk '{print $2}' | xargs kill
 
-if [[ ! -f ${MY_DIR}/.env ]]; then
+if [ ! -f "${MY_DIR}/.env" ]; then
   echo "Setting up initial .env"
   printf "DEV=true\n\
 EMAIL_SENDER=brazil@agilealliance.org\n\
@@ -24,8 +25,8 @@ IDENTITY_CLIENT_ID=ID\n\
 IDENTITY_CLIENT_SECRET=SECRET\n" > ${MY_DIR}/.env
 fi
 
-${MY_DIR}/scripts/start_postgres.sh
+"${MY_DIR}/scripts/start_postgres.sh"
 
-export PATH=${MY_DIR}/bin/:$PATH
+export PATH="${MY_DIR}/bin/:$PATH"
 echo "Starting processes..."
-${MY_DIR}/bin/lein cooper
+"${MY_DIR}/bin/lein" cooper
